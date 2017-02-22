@@ -1,4 +1,4 @@
-<h3>BeanTimer<h3>
+<h3>BeanTimer</h3>
 
 Agent instruments a target application targeting bean initialization time in Configuration annotated classes
 
