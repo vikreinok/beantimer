@@ -10,8 +10,8 @@ public class ClassFilter {
 
     Pattern pattern;
 
-    public ClassFilter() {
-        pattern = Pattern.compile("com.mcbfinance.aio.[\\w.-]*");
+    public ClassFilter(String packageToMeasure) {
+        pattern = Pattern.compile(packageToMeasure + ".[\\w.-]*");
     }
 
     public boolean matches(String str) {

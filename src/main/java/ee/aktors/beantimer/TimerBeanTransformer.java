@@ -15,11 +15,15 @@ import java.security.ProtectionDomain;
  */
 public class TimerBeanTransformer implements ClassFileTransformer {
 
-    final static Logger LOG = Logger.getLogger(Agent.class);
+    private final static Logger LOG = Logger.getLogger(Agent.class);
     public static final String CLASSPATH_PROXY = "com.sun.proxy.$Proxy";
     public static final String CLASSPATH_CONFIGURATION = "org.springframework.context.annotation.Configuration";
 
-    ClassFilter classFilter = new ClassFilter();
+    ClassFilter classFilter;
+
+    public TimerBeanTransformer(ClassFilter classFilter) {
+        this.classFilter = classFilter;
+    }
 
     @Override
     public byte[] transform(ClassLoader classLoader, String s, Class<?> aClass, ProtectionDomain protectionDomain, byte[] bytes) throws IllegalClassFormatException {
@@ -40,17 +44,15 @@ public class TimerBeanTransformer implements ClassFileTransformer {
                             proxy = (Proxy) classAnnotation;
 
                             if (proxy.toString().endsWith(CLASSPATH_CONFIGURATION)) {
-                                LOG.error(proxy);
 
                                 CtMethod[] methods = cc.getMethods();
                                 for (CtMethod method : methods) {
-                                    printBeanAnnotations(method);
+                                    findBeanAnnotations(method);
                                 }
                             }
                         } catch (Exception e) {
-                            LOG.error("Problem with casting proxy " + e.getMessage());
+                            LOG.error("Problem with casting proxy ", e );
                         }
-
                     }
 
                 }
@@ -65,40 +67,26 @@ public class TimerBeanTransformer implements ClassFileTransformer {
         return null;
     }
 
-    private void printBeanAnnotations(CtMethod method) throws Exception {
+    private void findBeanAnnotations(CtMethod method) throws Exception {
         Object[] methodAnnotations = method.getAnnotations();
 
-        Proxy methodProxy = null;
+        Proxy methodProxy;
         for (Object methodAnnotation : methodAnnotations) {
             methodProxy = (Proxy) methodAnnotation;
             if (methodProxy.toString().endsWith("Bean")) {
-                LOG.error("    " + methodProxy);
-                LOG.error("    " + method.getName());
-
                 addTimer(method);
             }
         }
     }
 
-    private byte[] addTimer(CtClass cc) throws Exception {
-        CtMethod m = cc.getDeclaredMethod("run");
-        m.addLocalVariable("elapsedTime", CtClass.longType);
-        m.insertBefore("elapsedTime = System.currentTimeMillis();");
-        m.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime;"
-                + "System.out.println(\"Method Executed in ms: \" + elapsedTime);}");
-        byte[] byteCode = cc.toBytecode();
-        cc.detach();
-        return byteCode;
-    }
-
     private void addTimer(CtMethod method) throws Exception {
-        CtMethod m = method;
-        String methodName = String.format("%-100s", method.getName());
-        String returnType = String.format("%-55s", method.getReturnType().getSimpleName());
-        m.addLocalVariable("elapsedTime", CtClass.longType);
-        m.insertBefore("elapsedTime = System.currentTimeMillis();");
-        m.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime; " +
-                "System.err.println(\"Bean  " + returnType + " " + methodName + "  in ms: \" + elapsedTime);}");
+        String methodName = String.format("%-70s", method.getName());
+        String returnType = String.format("%45s", method.getReturnType().getSimpleName());
+        String beanName = String.format("[%s] %s", returnType, methodName);
+        method.addLocalVariable("elapsedTime", CtClass.intType);
+        method.insertBefore("elapsedTime = System.currentTimeMillis();");
+        method.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime; " +
+                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + beanName + "\",elapsedTime);}");
     }
 
 }
