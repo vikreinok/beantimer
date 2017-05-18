@@ -15,4 +15,4 @@ package assembly:single -DskipTests
 
 **Add to VM options:**
 
--javaagent: abolute path \beantimer\target\beantimer.jar
+-javaagent: abolute path \beantimer\target\beantimer.jar -DpackageToMeasure=com.corp.project

@@ -2,123 +2,123 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ee.aktors</groupId>
-    <artifactId>beantimer</artifactId>
-    <version>0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <groupId>ee.aktors.beantimer</groupId>
+    <artifactId>beantimer-root</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>agent</module>
+        <module>collector</module>
+    </modules>
+
+
+    <developers>
+        <developer>
+            <id>viktor.reinok</id>
+            <email>vikreinok@gmail.com</email>
+        </developer>
+    </developers>
+
+
+    <repositories>
+    </repositories>
 
     <properties>
-        <java.version>1.6</java.version>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jersey.version>1.19</jersey.version>
+        <surefire.version>2.19.1</surefire.version>
+ 
         <javassist.version>3.12.1.GA</javassist.version>
         <junit.version>4.12</junit.version>
         <log4j.version>1.2.17</log4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-     </properties>
+
+        <spring-boot.verison>1.4.4.RELEASE</spring-boot.verison>
+        <h2.version>1.4.195</h2.version>
+    </properties>
 
     <profiles>
+        <!-- Differentiate slow unit tests from fast to improve development process  mvn test -Pslow-tests-->
         <profile>
-            <id>default-profile</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <file>
-                    <exists>${java.home}/../lib/tools.jar</exists>
-                </file>
-            </activation>
-            <properties>
-                <toolsjar>${java.home}/../lib/tools.jar</toolsjar>
-                <sajdijar>${java.home}/../lib/sa-jdi.jar</sajdijar>
-            </properties>
-        </profile>
-        <profile>
-            <id>mac-profile</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-                <file>
-                    <exists>${java.home}/../Classes/classes.jar</exists>
-                </file>
-            </activation>
-            <properties>
-                <toolsjar>${java.home}/../Classes/classes.jar</toolsjar>
-                <sajdijar>${java.home}/../Classes/sa-jdi.jar</sajdijar>
-            </properties>
+            <id>slow-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.version}</version>
+                        <configuration>
+                            <includes>
+                                <include>**/*Slow*</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 
-
     <build>
-        <!--It will be over ridden by mvn assembly plugin -->
-        <!-- Original will be moved to archive-tmp -->
-        <finalName>${project.artifactId}</finalName>
-
         <pluginManagement>
             <plugins>
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>2.6</version>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                     <configuration>
-
                         <descriptorRefs>
                             <descriptorRef>jar-with-dependencies</descriptorRef>
                         </descriptorRefs>
-
-                        <finalName>${project.artifactId}</finalName>
-                        <appendAssemblyId>false</appendAssemblyId>
-
                         <archive>
                             <manifest>
-                                <mainClass>ee.aktors.beantimer.Agent</mainClass>
+                                <addClasspath>true</addClasspath>
+                                <mainClass>${classpath.main}</mainClass>
                             </manifest>
-                            <manifestEntries>
-                                <Premain-Class>ee.aktors.beantimer.Agent</Premain-Class>
-                                <Agent-Class>ee.aktors.beantimer.Agent</Agent-Class>
-                                <Main-Class>ee.aktors.beantimer.Agent</Main-Class>
-                                <Can-Redefine-Classes>true</Can-Redefine-Classes>
-                                <Can-Retransform-Classes>true</Can-Retransform-Classes>
-                            </manifestEntries>
                         </archive>
                     </configuration>
                 </plugin>
-
             </plugins>
+
         </pluginManagement>
 
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <excludes>
+                        <exclude>**/*Slow*</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
-        </plugins>
-
+         </plugins>
     </build>
 
-    <dependencies>
+    <dependencyManagement>
+        <dependencies>
 
-        <dependency>
-            <groupId>javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>${javassist.version}</version>
-        </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-
-    </dependencies>
-
+        </dependencies>
+    </dependencyManagement>
 </project>
