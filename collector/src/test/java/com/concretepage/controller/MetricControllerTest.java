@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,13 +37,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 /**
  *
  */
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = MyApplication.class)
-//@WebMvcTest(MetricController.class)
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MyApplication.class)
 @WebAppConfiguration
+@ActiveProfiles("test")
 public class MetricControllerTest {
 
     public static final String BEAN_NAME = "beanName";
@@ -96,14 +94,6 @@ public class MetricControllerTest {
 
     }
 
-//    @Test
-//    public void userNotFound() throws Exception {
-//        mockMvc.perform(post("/george/bookmarks/")
-//                .content(this.json(new Metric()))
-//                .contentType(contentType))
-//                .andExpect(status().isNotFound());
-//    }
-//
 
     @Test
     public void getMetricById() throws Exception {
