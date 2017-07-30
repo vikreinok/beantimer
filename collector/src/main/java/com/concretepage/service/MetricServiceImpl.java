@@ -1,6 +1,7 @@
 package com.concretepage.service;
 
-import com.concretepage.dao.MetricDAO;
+import com.concretepage.repo.MetricRepository;
+import com.concretepage.repo.dao.MetricDAO;
 import com.concretepage.entity.Metric;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,16 +14,17 @@ public class MetricServiceImpl implements MetricService {
 
     @Autowired
     private MetricDAO metricDAO;
+    @Autowired
+    private MetricRepository metricRepository;
 
     @Override
-    public Metric getMetricById(int id) {
-        Metric obj = metricDAO.getMetricById(id);
-        return obj;
+    public Metric getMetricById(long id) {
+        return metricRepository.findOne(id);
     }
 
     @Override
     public List<Metric> getAllMetrics() {
-        return metricDAO.getAllMetrics();
+        return metricRepository.findAll();
     }
 
     @Override
@@ -36,7 +38,7 @@ public class MetricServiceImpl implements MetricService {
     }
 
     @Override
-    public void deleteMetric(int id) {
-        metricDAO.deleteMetric(id);
+    public void deleteMetric(long id) {
+        metricRepository.delete(id);
     }
 }

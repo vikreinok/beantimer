@@ -1,4 +1,4 @@
-package com.concretepage.dao;
+package com.concretepage.repo.dao;
 
 import com.concretepage.entity.Metric;
 

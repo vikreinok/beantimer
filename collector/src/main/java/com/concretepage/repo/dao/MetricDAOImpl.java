@@ -1,4 +1,4 @@
-package com.concretepage.dao;
+package com.concretepage.repo.dao;
 
 import com.concretepage.entity.Metric;
 import org.springframework.stereotype.Repository;
@@ -11,12 +11,13 @@ import java.util.List;
 @Transactional
 @Repository
 public class MetricDAOImpl implements MetricDAO {
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     public Metric getMetricById(int id) {
-        return entityManager.find(Metric.class, id);
+        return entityManager.find(Metric.class, (long) id);
     }
 
     @SuppressWarnings("unchecked")
