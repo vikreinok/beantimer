@@ -74,8 +74,7 @@ public class MetricControllerTest {
                 .findAny()
                 .orElse(null);
 
-        assertNotNull("the JSON message converter must not be null",
-                this.mappingJackson2HttpMessageConverter);
+        assertNotNull("the JSON message converter must not be null", this.mappingJackson2HttpMessageConverter);
     }
 
     @Before
@@ -90,8 +89,6 @@ public class MetricControllerTest {
         metric.setDuration(DURATION);
         metric.setCreated(new Date());
         metricRepository.save(metric);
-
-
     }
 
 
@@ -105,7 +102,7 @@ public class MetricControllerTest {
         mockMvc.perform(get("/metric")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].beanName", is(BEAN_NAME)))
                 .andExpect(jsonPath("$[0].beanType", is(BEAN_TYPE)))
                 .andExpect(jsonPath("$[0].duration", is(DURATION)));
@@ -121,8 +118,7 @@ public class MetricControllerTest {
 
     protected String json(Object o) throws IOException {
         MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
-        this.mappingJackson2HttpMessageConverter.write(
-                o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
+        this.mappingJackson2HttpMessageConverter.write(o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
         return mockHttpOutputMessage.getBodyAsString();
     }
 

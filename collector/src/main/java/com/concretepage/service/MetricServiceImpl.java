@@ -24,7 +24,13 @@ public class MetricServiceImpl implements MetricService {
 
     @Override
     public List<Metric> getAllMetrics() {
-        return metricRepository.findAll();
+        List<Metric> all = metricRepository.findAll();
+        Metric metric = new Metric();
+        metric.setBeanName("na");
+        metric.setBeanType("ta");
+        metric.setDuration(3);
+        all.add(metric);
+        return all;
     }
 
     @Override
