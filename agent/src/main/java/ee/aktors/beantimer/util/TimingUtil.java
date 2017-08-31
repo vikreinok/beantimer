@@ -1,28 +1,27 @@
 package ee.aktors.beantimer.util;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import ee.aktors.beantimer.model.Measurement;
+
+import java.util.Stack;
 
 /**
  *
  */
 public class TimingUtil {
 
+    private static Stack<Measurement> measurements;
 
-    private static Map<String, Integer> measurements;
-
-    public static Map<String, Integer> getMeasurements() {
+    public static Stack<Measurement> getMeasurements() {
         if (measurements == null) {
-            measurements = new LinkedHashMap<String, Integer>();
+            measurements = new Stack<>();
         }
         return measurements;
     }
 
-    public static void addMeasurement(String beanName, int measurement) {
-        getMeasurements().put(beanName, measurement);
-        System.out.printf("bean %s measurement %d%n", beanName, measurement);
+    public static void addMeasurement(String beanName, String beanType, int measurement) {
+        Measurement metric = new Measurement(beanName, beanType, measurement);
+        getMeasurements().add(metric);
+        System.out.println(metric);
     }
-
-
 
 }

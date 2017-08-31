@@ -1,5 +1,6 @@
 package ee.aktors.beantimer;
 
+import ee.aktors.beantimer.comm.RestClient;
 import org.apache.log4j.Logger;
 
 import java.lang.instrument.Instrumentation;
@@ -27,6 +28,14 @@ public class Agent {
         ClassFilter classFilter = new ClassFilter(packageToMeasure);
         inst.addTransformer(new TimerBeanTransformer(classFilter));
         LOG.info("Agent initialized");
+
+        int period = 5000;
+        String endpoint = "http://localhost:8080/metric";
+        RestClient restClient = new RestClient(endpoint);
+        PeriodicDataSender periodicDataSender = new PeriodicDataSender(period, restClient);
+        periodicDataSender.start();
+        LOG.info(String.format("PeriodicDataSender started with period %d ms against following endpoint %s", period, endpoint));
+
     }
 
 }

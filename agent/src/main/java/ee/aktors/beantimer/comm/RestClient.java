@@ -1,6 +1,6 @@
 package ee.aktors.beantimer.comm;
 
-import ee.aktors.beantimer.model.Metric;
+import ee.aktors.beantimer.model.Measurement;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPut;
@@ -17,11 +17,9 @@ import java.io.InputStreamReader;
  */
 public class RestClient {
 
-
     final static Logger LOG = Logger.getLogger(RestClient.class);
 
     private String endpoint = "http://localhost:8080/metric";
-
 
     public RestClient(String endpoint) {
         this.endpoint = endpoint;
@@ -31,10 +29,11 @@ public class RestClient {
         System.err.println("Using default endpoint: " + endpoint);
     }
 
-    public void sendData(Metric metric) {
-        String payload = String.format("{\"beanName\":\"%s\",\"beanType\":\"%s\",\"duration\":\"%s\"}", metric.getBeanName(), metric.getBeanType(), metric.getDuration());
+    public void sendData(Measurement measurement) {
+        String payload = measurement.toString();
 
         DefaultHttpClient httpClient = null;
+        BufferedReader br = null;
         try {
 
             httpClient = new DefaultHttpClient();
@@ -49,7 +48,7 @@ public class RestClient {
                 throw new RuntimeException("Failed : HTTP error code : " + response.getStatusLine().getStatusCode());
             }
 
-            BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
+            br = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
 
             String output;
             LOG.info("Output from Server .... \n");
@@ -64,6 +63,13 @@ public class RestClient {
         } finally {
             if (httpClient != null && httpClient.getConnectionManager() != null) {
                 httpClient.getConnectionManager().shutdown();
+            }
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    LOG.error(e);
+                }
             }
         }
 

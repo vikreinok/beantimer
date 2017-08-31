@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Metric extends TimedStampedIdEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
+
     @Column(name = "beanName")
     private String beanName;
     @Column(name = "beanType")
