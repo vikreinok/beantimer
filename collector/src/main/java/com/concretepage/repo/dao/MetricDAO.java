@@ -11,6 +11,8 @@ public interface MetricDAO {
 
     void addMetric(Metric metric);
 
+    void addMetrics(List<Metric> metrics);
+
     void deleteMetric(int id);
 
     boolean metricExists(String title, String location);

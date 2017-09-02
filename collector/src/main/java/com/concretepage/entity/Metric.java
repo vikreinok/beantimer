@@ -14,7 +14,7 @@ public class Metric extends TimedStampedIdEntity implements Serializable {
     @Column(name = "beanType")
     private String beanType;
     @Column(name = "duration")
-    private Integer duration;
+    private Long duration;
 
 
     public Metric() {
@@ -36,11 +36,11 @@ public class Metric extends TimedStampedIdEntity implements Serializable {
         this.beanType = beanType;
     }
 
-    public Integer getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 }

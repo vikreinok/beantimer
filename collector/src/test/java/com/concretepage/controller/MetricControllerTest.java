@@ -45,7 +45,7 @@ public class MetricControllerTest {
 
     public static final String BEAN_NAME = "beanName";
     public static final String BEAN_TYPE = "BeanType";
-    public static final int DURATION = 10;
+    public static final long DURATION = 10L;
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),

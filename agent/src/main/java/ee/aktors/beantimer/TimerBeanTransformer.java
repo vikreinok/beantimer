@@ -80,13 +80,12 @@ public class TimerBeanTransformer implements ClassFileTransformer {
     }
 
     private void addTimer(CtMethod method) throws Exception {
-        String methodName = String.format("%-70s", method.getName());
-        String returnType = String.format("%45s", method.getReturnType().getSimpleName());
-        String beanName = String.format("[%s] %s", returnType, methodName);
-        method.addLocalVariable("elapsedTime", CtClass.intType);
-        method.insertBefore("elapsedTime = System.currentTimeMillis();");
-        method.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime; " +
-                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + beanName + "\", \""+ returnType + "\", elapsedTime);}");
+        String methodName = method.getName();
+        String returnType = method.getReturnType().getSimpleName();
+        method.addLocalVariable("elapsedTime", CtClass.longType);
+        method.insertBefore("elapsedTime = System.nanoTime();");
+        method.insertAfter("{elapsedTime = System.nanoTime() - elapsedTime; " +
+                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + methodName + "\", \""+ returnType + "\", elapsedTime);}");
     }
 
 }

@@ -20,23 +20,25 @@ public class PeriodicDataSender extends Thread {
     @Override
     public void run() {
         while (true) {
+
+            sleep(sleepMs);
+
             //TODO synchronize!!! producer consumer
             Stack<Measurement> measurements = TimingUtil.getMeasurements();
 
-            //TODO sent in bulk
-            int count = 0;
-            for (int i = 0; i < measurements.size() && count < 10; i++) {
-                Measurement measurement = measurements.get(i);
-                restClient.sendData(measurement);
-                measurements.remove(measurement);
-                count++;
-            }
+            System.err.printf("Sending %d measurements %n", measurements.size());
+            restClient.sendMeasurements(measurements);
 
-            try {
-                Thread.sleep(sleepMs);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            measurements.clear();
+
+        }
+    }
+
+    private void sleep(int sleepMs) {
+        try {
+            Thread.sleep(sleepMs);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

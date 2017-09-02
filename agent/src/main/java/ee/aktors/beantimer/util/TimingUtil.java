@@ -18,10 +18,9 @@ public class TimingUtil {
         return measurements;
     }
 
-    public static void addMeasurement(String beanName, String beanType, int measurement) {
+    public static void addMeasurement(String beanName, String beanType, long measurement) {
         Measurement metric = new Measurement(beanName, beanType, measurement);
         getMeasurements().add(metric);
-        System.out.println(metric);
     }
 
 }

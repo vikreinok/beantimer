@@ -12,7 +12,11 @@ public interface MetricService {
 
     Metric getMetricById(long id);
 
-    boolean addMetric(Metric metric);
+    void addMetric(Metric metric);
+
+    void addMetrics(List<Metric> metrics);
 
     void deleteMetric(long id);
+
+    void deleteAll();
 }

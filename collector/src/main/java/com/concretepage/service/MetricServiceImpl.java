@@ -24,27 +24,26 @@ public class MetricServiceImpl implements MetricService {
 
     @Override
     public List<Metric> getAllMetrics() {
-        List<Metric> all = metricRepository.findAll();
-        Metric metric = new Metric();
-        metric.setBeanName("na");
-        metric.setBeanType("ta");
-        metric.setDuration(3);
-        all.add(metric);
-        return all;
+        return metricRepository.findAll();
     }
 
     @Override
-    public synchronized boolean addMetric(Metric metric) {
-        if (metricDAO.metricExists(metric.getBeanName(), metric.getBeanType())) {
-            return false;
-        } else {
-            metricDAO.addMetric(metric);
-            return true;
-        }
+    public synchronized void addMetric(Metric metric) {
+        metricDAO.addMetric(metric);
+    }
+
+    @Override
+    public void addMetrics(List<Metric> metrics) {
+        metricDAO.addMetrics(metrics);
     }
 
     @Override
     public void deleteMetric(long id) {
         metricRepository.delete(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        metricRepository.deleteAll();
     }
 }

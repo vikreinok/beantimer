@@ -35,9 +35,22 @@ public class MetricController {
         return new ResponseEntity<Metric>(metric, HttpStatus.OK);
     }
 
+    @PutMapping("/all")
+    public ResponseEntity<List<Metric>> updateMetrics(@RequestBody List<Metric> metrics) {
+        metricService.addMetrics(metrics);
+        return new ResponseEntity<List<Metric>>(metrics, HttpStatus.OK);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteMetric(@PathVariable("id") Integer id) {
         metricService.deleteMetric(id);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
-} 
+
+
+    @GetMapping("/deleteMetrics")
+    public ResponseEntity<Void> deleteAllMetric() {
+        metricService.deleteAll();
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+}

@@ -1,6 +1,8 @@
 package com.concretepage.repo.dao;
 
 import com.concretepage.entity.Metric;
+import com.concretepage.repo.MetricRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,9 @@ public class MetricDAOImpl implements MetricDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private MetricRepository metricRepository;
 
     @Override
     public Metric getMetricById(int id) {
@@ -30,6 +35,11 @@ public class MetricDAOImpl implements MetricDAO {
     @Override
     public void addMetric(Metric metric) {
         entityManager.persist(metric);
+    }
+
+    @Override
+    public void addMetrics(List<Metric> metrics) {
+        metricRepository.save(metrics);
     }
 
     @Override

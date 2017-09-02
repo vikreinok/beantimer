@@ -7,5 +7,8 @@
 </head>
 <body>
 <a href="showMetrics">Show metrics</a>
+<br>
+<a href="metric/deleteMetrics" rel="nofollow">Delete metrics</a>
+
 </body>
 </html>

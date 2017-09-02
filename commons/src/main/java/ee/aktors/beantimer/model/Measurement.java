@@ -7,9 +7,9 @@ public class Measurement {
 
     private String beanName;
     private String beanType;
-    private Integer duration;
+    private Long duration;
 
-    public Measurement(String beanName, String beanType, Integer duration) {
+    public Measurement(String beanName, String beanType, Long duration) {
         this.beanName = beanName;
         this.beanType = beanType;
         this.duration = duration;
@@ -23,7 +23,7 @@ public class Measurement {
         return beanType;
     }
 
-    public Integer getDuration() {
+    public Long getDuration() {
         return duration;
     }
 

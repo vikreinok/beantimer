@@ -30,7 +30,7 @@ public class Agent {
         LOG.info("Agent initialized");
 
         int period = 5000;
-        String endpoint = "http://localhost:8080/metric";
+        String endpoint = "http://localhost:8080/metric/all";
         RestClient restClient = new RestClient(endpoint);
         PeriodicDataSender periodicDataSender = new PeriodicDataSender(period, restClient);
         periodicDataSender.start();

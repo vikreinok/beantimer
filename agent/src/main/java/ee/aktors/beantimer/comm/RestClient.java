@@ -1,6 +1,7 @@
 package ee.aktors.beantimer.comm;
 
 import ee.aktors.beantimer.model.Measurement;
+import ee.aktors.beantimer.util.JsonUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPut;
@@ -11,6 +12,7 @@ import org.apache.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  *
@@ -19,7 +21,7 @@ public class RestClient {
 
     final static Logger LOG = Logger.getLogger(RestClient.class);
 
-    private String endpoint = "http://localhost:8080/metric";
+    private String endpoint = "http://localhost:8080/metric/all";
 
     public RestClient(String endpoint) {
         this.endpoint = endpoint;
@@ -29,8 +31,8 @@ public class RestClient {
         System.err.println("Using default endpoint: " + endpoint);
     }
 
-    public void sendData(Measurement measurement) {
-        String payload = measurement.toString();
+    public void sendMeasurements(List<Measurement> measurements) {
+        String payload = JsonUtil.transformToJsonArray(measurements);
 
         DefaultHttpClient httpClient = null;
         BufferedReader br = null;
