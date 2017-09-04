@@ -6,8 +6,8 @@ import org.apache.log4j.Logger;
 import java.lang.instrument.Instrumentation;
 
 /**
- * Add following
- * -javaagent: abolute path \beantimer\target\beantimer.jar
+ * Add following to VM options to target Apring application
+ * -DpackageToMeasure=com.corp.project -javaagent: abolute path \beantimer\target\beantimer.jar
  */
 public class Agent {
 

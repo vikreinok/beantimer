@@ -27,8 +27,12 @@ import java.util.Date;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -45,7 +49,7 @@ public class MetricControllerTest {
 
     public static final String BEAN_NAME = "beanName";
     public static final String BEAN_TYPE = "BeanType";
-    public static final long DURATION = 10L;
+    public static final Long DURATION = 100000000000L;
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -88,12 +92,19 @@ public class MetricControllerTest {
         metric.setBeanType(BEAN_TYPE);
         metric.setDuration(DURATION);
         metric.setCreated(new Date());
-        metricRepository.save(metric);
+        metric = metricRepository.save(metric);
     }
 
 
     @Test
     public void getMetricById() throws Exception {
+
+        mockMvc.perform(get("/metric/{id}", metric.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.beanName", is(BEAN_NAME)))
+                .andExpect(jsonPath("$.beanType", is(BEAN_TYPE)))
+                .andExpect(jsonPath("$.duration", is(DURATION)));
 
     }
 
@@ -102,7 +113,7 @@ public class MetricControllerTest {
         mockMvc.perform(get("/metric")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].beanName", is(BEAN_NAME)))
                 .andExpect(jsonPath("$[0].beanType", is(BEAN_TYPE)))
                 .andExpect(jsonPath("$[0].duration", is(DURATION)));
@@ -110,10 +121,35 @@ public class MetricControllerTest {
 
     @Test
     public void updateMetric() throws Exception {
+
+        Long updatedDuration = DURATION + 1;
+
+        Metric metric = new Metric();
+        metric.setBeanName(metric.getBeanName());
+        metric.setBeanType(metric.getBeanType());
+        metric.setDuration(updatedDuration);
+
+        mockMvc.perform(put("/metric")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json(metric)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.beanName", is(BEAN_NAME)))
+                .andExpect(jsonPath("$.beanType", is(BEAN_TYPE)))
+                .andExpect(jsonPath("$.duration", is(updatedDuration)));
+
+        assertEquals(updatedDuration, metricRepository.findOne(metric.getId()).getDuration());
+
     }
 
     @Test
     public void deleteMetric() throws Exception {
+
+        mockMvc.perform(delete("/metric/{id}", metric.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        assertNull(metricRepository.findOne(metric.getId()));
+
     }
 
     protected String json(Object o) throws IOException {
