@@ -20,37 +20,37 @@ public class MetricController {
     @GetMapping("/{id}")
     public ResponseEntity<Metric> getMetricById(@PathVariable("id") Integer id) {
         Metric metric = metricService.getMetricById(id);
-        return new ResponseEntity<Metric>(metric, HttpStatus.OK);
+        return new ResponseEntity<>(metric, HttpStatus.OK);
     }
 
     @GetMapping()
     public ResponseEntity<List<Metric>> getAllMetrics() {
         List<Metric> list = metricService.getAllMetrics();
-        return new ResponseEntity<List<Metric>>(list, HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @PutMapping()
     public ResponseEntity<Metric> updateMetric(@RequestBody Metric metric) {
         metricService.addMetric(metric);
-        return new ResponseEntity<Metric>(metric, HttpStatus.OK);
+        return new ResponseEntity<>(metric, HttpStatus.OK);
     }
 
     @PutMapping("/all")
     public ResponseEntity<List<Metric>> updateMetrics(@RequestBody List<Metric> metrics) {
         metricService.addMetrics(metrics);
-        return new ResponseEntity<List<Metric>>(metrics, HttpStatus.OK);
+        return new ResponseEntity<>(metrics, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteMetric(@PathVariable("id") Integer id) {
         metricService.deleteMetric(id);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
     @GetMapping("/deleteMetrics")
     public ResponseEntity<Void> deleteAllMetric() {
         metricService.deleteAll();
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
