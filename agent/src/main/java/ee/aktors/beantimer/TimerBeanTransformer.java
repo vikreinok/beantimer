@@ -51,7 +51,7 @@ public class TimerBeanTransformer implements ClassFileTransformer {
                                 }
                             }
                         } catch (Exception e) {
-                            LOG.error("Problem with casting proxy ", e );
+                            LOG.error("Problem with casting proxy ", e);
                         }
                     }
 
@@ -82,10 +82,12 @@ public class TimerBeanTransformer implements ClassFileTransformer {
     private void addTimer(CtMethod method) throws Exception {
         String methodName = method.getName();
         String returnType = method.getReturnType().getSimpleName();
+        method.addLocalVariable("currentMillis", CtClass.longType);
         method.addLocalVariable("elapsedTime", CtClass.longType);
+        method.insertBefore("currentMillis = System.currentTimeMillis();");
         method.insertBefore("elapsedTime = System.nanoTime();");
         method.insertAfter("{elapsedTime = System.nanoTime() - elapsedTime; " +
-                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + methodName + "\", \""+ returnType + "\", elapsedTime);}");
+                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + methodName + "\",\"" + returnType + "\", elapsedTime, currentMillis);}");
     }
 
 }

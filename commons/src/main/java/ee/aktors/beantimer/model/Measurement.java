@@ -5,14 +5,16 @@ package ee.aktors.beantimer.model;
  */
 public class Measurement {
 
-    private String beanName;
-    private String beanType;
-    private Long duration;
+    private final String beanName;
+    private final String beanType;
+    private final Long duration;
+    private final Long initialisationStartTimeMillis;
 
-    public Measurement(String beanName, String beanType, Long duration) {
+    public Measurement(String beanName, String beanType, Long duration, Long initialisationStartTimeMillis) {
         this.beanName = beanName;
         this.beanType = beanType;
         this.duration = duration;
+        this.initialisationStartTimeMillis = initialisationStartTimeMillis;
     }
 
     public String getBeanName() {
@@ -27,8 +29,12 @@ public class Measurement {
         return duration;
     }
 
+    public Long getInitialisationStartTimeMillis() {
+        return initialisationStartTimeMillis;
+    }
+
     @Override
     public String toString() {
-        return String.format("{\"beanName\":\"%s\",\"beanType\":\"%s\",\"duration\":\"%s\"}", getBeanName(), getBeanType(), getDuration());
+        return String.format("{\"beanName\":\"%s\",\"beanType\":\"%s\",\"duration\":\"%s\",\"initialisationStartTimeMillis\":\"%s\" }", getBeanName(), getBeanType(), getDuration(), getInitialisationStartTimeMillis());
     }
 }
