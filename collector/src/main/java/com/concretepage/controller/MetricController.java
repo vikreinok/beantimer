@@ -30,8 +30,14 @@ public class MetricController {
     }
 
     @PutMapping()
-    public ResponseEntity<Metric> updateMetric(@RequestBody Metric metric) {
+    public ResponseEntity<Metric> addOrUpdateMetric(@RequestBody Metric metric) {
         metricService.addMetric(metric);
+        return new ResponseEntity<>(metric, HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<Metric> updateMetric(@PathVariable("id") Long id, @RequestBody Metric metric) {
+        metricService.updateMetric(id, metric);
         return new ResponseEntity<>(metric, HttpStatus.OK);
     }
 

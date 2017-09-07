@@ -6,7 +6,6 @@ import com.concretepage.entity.Metric;
 import com.concretepage.repo.MetricRepository;
 import com.concretepage.repo.dao.MetricDAO;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,7 +120,6 @@ public class MetricControllerTest {
     }
 
     @Test
-    @Ignore("Fix this test. Add post method for updating")
     public void updateMetric() throws Exception {
 
         Long updatedDuration = DURATION + 1;
@@ -132,7 +130,7 @@ public class MetricControllerTest {
         metric.setDuration(updatedDuration);
         metric.setInitialisationStartTimeMillis(this.metric.getInitialisationStartTimeMillis());
 
-        mockMvc.perform(put("/metric")
+        mockMvc.perform(post("/metric/{id}", this.metric.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json(metric)))
                 .andExpect(status().isOk())

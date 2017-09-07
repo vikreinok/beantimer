@@ -16,10 +16,11 @@ import java.security.ProtectionDomain;
 public class TimerBeanTransformer implements ClassFileTransformer {
 
     private final static Logger LOG = Logger.getLogger(Agent.class);
+
     public static final String CLASSPATH_PROXY = "com.sun.proxy.$Proxy";
     public static final String CLASSPATH_CONFIGURATION = "org.springframework.context.annotation.Configuration";
 
-    ClassFilter classFilter;
+    final ClassFilter classFilter;
 
     public TimerBeanTransformer(ClassFilter classFilter) {
         this.classFilter = classFilter;
@@ -51,7 +52,7 @@ public class TimerBeanTransformer implements ClassFileTransformer {
                                 }
                             }
                         } catch (Exception e) {
-                            LOG.error("Problem with casting proxy ", e);
+                            LOG.error("Problem with casting proxy", e);
                         }
                     }
 
@@ -59,8 +60,8 @@ public class TimerBeanTransformer implements ClassFileTransformer {
                 byte[] byteCode = cc.toBytecode();
                 cc.detach();
                 return byteCode;
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                LOG.error("Issue with instrumentation", e);
             }
         }
 

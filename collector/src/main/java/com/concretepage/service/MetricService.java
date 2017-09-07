@@ -14,6 +14,8 @@ public interface MetricService {
 
     void addMetric(Metric metric);
 
+    void updateMetric(long id, Metric metric);
+
     void addMetrics(List<Metric> metrics);
 
     void deleteMetric(long id);

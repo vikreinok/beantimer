@@ -16,5 +16,7 @@ public interface MetricDAO {
     void deleteMetric(int id);
 
     boolean metricExists(String title, String location);
+
+    void updateMetric(long id, Metric metric);
 }
  

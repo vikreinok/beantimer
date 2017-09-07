@@ -33,6 +33,11 @@ public class MetricServiceImpl implements MetricService {
     }
 
     @Override
+    public void updateMetric(long id, Metric metric) {
+        metricDAO.updateMetric(id, metric);
+    }
+
+    @Override
     public void addMetrics(List<Metric> metrics) {
         metricDAO.addMetrics(metrics);
     }

@@ -54,4 +54,18 @@ public class MetricDAOImpl implements MetricDAO {
                 .setParameter(2, beanType).getResultList().size();
         return count > 0 ? true : false;
     }
+
+    @Override
+    public void updateMetric(long id, Metric metric) {
+        Metric existingMetric = metricRepository.findOne(id);
+        if (existingMetric == null) {
+            throw new IllegalArgumentException("Can't find metric with ID " + id);
+        }
+        existingMetric.setBeanName(metric.getBeanName());
+        existingMetric.setBeanType(metric.getBeanType());
+        existingMetric.setDuration(metric.getDuration());
+        existingMetric.setInitialisationStartTimeMillis(metric.getInitialisationStartTimeMillis());
+
+        metricRepository.save(existingMetric);
+    }
 }
