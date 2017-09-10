@@ -1,18 +1,16 @@
-<h3>BeanTimer</h3>
+<h3>Bean timer</h3>
 
-Agent instruments a target application targeting bean initialization time in Configuration annotated classes
+Agent instruments an application targeting all methods annotated with @Bean in class annotated with @Configuration
 
-
-The app will print directly into app log. 
-Copy paste the data from log. 
+The agent will sent collected data to collector application (small spring boot app) periodically. 
 
 TODO file output 
 
 **Build agent:**
 
-package assembly:single -DskipTests
+/agent package assembly:single -DskipTests
 
 
 **Add to VM options:**
 
--javaagent: abolute path \beantimer\target\beantimer.jar -DpackageToMeasure=com.corp.project
+-DpackageToMeasure=com.corp.project -javaagent: abolute path \beantimer\target\beantimer.jar
