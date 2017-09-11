@@ -1,13 +1,13 @@
 <h3>Bean timer</h3>
 
-Have You ever wondered What takes up all the time during application startup? Well one peace of the puzzle is bean which take too much time to initialize. 
+Have You ever wondered what takes up all the time during application startup? Well, a peace of the puzzle could be couple of beans which take too much time to initialize. 
 
 ... is a small tool which measures bean initialization time and order during application startup. 
 
 There is a small spring boot app which collects and presents all data. 
 
 
-How to start?
+How to use bean timer?
 
 
 **Build agent:**
@@ -28,5 +28,5 @@ How to start?
 
 -----------------------
 
-Now, just run your integration tests or just do manual testing with app redeploys.
+Now, just run your integration tests or do some manual testing with app redeploys.
 
