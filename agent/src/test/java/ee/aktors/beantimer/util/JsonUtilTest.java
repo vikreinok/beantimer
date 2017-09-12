@@ -17,7 +17,7 @@ public class JsonUtilTest {
 
         assertEquals("[]", JsonUtil.transformToJsonArray(Arrays.asList()));
         assertEquals("[{\"beanName\":\"a\",\"beanType\":\"b\",\"duration\":\"1\"}]", JsonUtil.transformToJsonArray(Arrays.asList()));
-        assertEquals("[{\"beanName\":\"a\",\"beanType\":\"b\",\"duration\":\"1\"},{\"beanName\":\"a\",\"beanType\":\"b\",\"duration\":\"2\"}]", JsonUtil.transformToJsonArray(Arrays.asList(new Measurement("a", "b", 1L), new Measurement("a", "b", 2L))));
+        assertEquals("[{\"beanName\":\"a\",\"beanType\":\"b\",\"duration\":\"1\"},{\"beanName\":\"a\",\"beanType\":\"b\",\"duration\":\"2\"}]", JsonUtil.transformToJsonArray(Arrays.asList(new Measurement("a", "b", 1L, 10L), new Measurement("a", "b", 2L, 20L))));
 
     }
 
