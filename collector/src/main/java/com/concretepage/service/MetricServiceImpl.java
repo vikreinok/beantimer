@@ -1,5 +1,6 @@
 package com.concretepage.service;
 
+import com.concretepage.model.ProcessedMetric;
 import com.concretepage.repo.MetricRepository;
 import com.concretepage.repo.dao.MetricDAO;
 import com.concretepage.entity.Metric;
@@ -50,5 +51,10 @@ public class MetricServiceImpl implements MetricService {
     @Override
     public void deleteAll() {
         metricRepository.deleteAll();
+    }
+
+    @Override
+    public List<ProcessedMetric> getProcessedMetrics() {
+        return metricDAO.getMetricsProcessed();
     }
 }

@@ -1,6 +1,7 @@
 package com.concretepage.service;
 
 import com.concretepage.entity.Metric;
+import com.concretepage.model.ProcessedMetric;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface MetricService {
     void deleteMetric(long id);
 
     void deleteAll();
+
+    List<ProcessedMetric> getProcessedMetrics();
 }

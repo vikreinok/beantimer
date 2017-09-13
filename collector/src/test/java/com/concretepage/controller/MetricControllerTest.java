@@ -1,27 +1,21 @@
 package com.concretepage.controller;
 
 
-import com.concretepage.MyApplication;
+import com.concretepage.SpringContextTest;
 import com.concretepage.entity.Metric;
 import com.concretepage.repo.MetricRepository;
 import com.concretepage.repo.dao.MetricDAO;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -37,23 +31,14 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 /**
  *
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = MyApplication.class)
-@WebAppConfiguration
-@ActiveProfiles("test")
-public class MetricControllerTest {
+public class MetricControllerTest extends SpringContextTest {
 
     public static final String BEAN_NAME = "beanName";
     public static final String BEAN_TYPE = "BeanType";
     public static final Long DURATION = 100000000000L;
     public static final Long INITIALISATION_START_TIME_MILLIS = 10000000000L;
 
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));
-
     private MockMvc mockMvc;
-
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
 
@@ -117,6 +102,46 @@ public class MetricControllerTest {
                 .andExpect(jsonPath("$[0].beanType", is(BEAN_TYPE)))
                 .andExpect(jsonPath("$[0].initialisationStartTimeMillis", is(INITIALISATION_START_TIME_MILLIS)))
                 .andExpect(jsonPath("$[0].duration", is(DURATION)));
+    }
+
+
+    @Test
+    public void getProcessedMetrics() throws Exception {
+
+        metricDAO.deleteMetric(metric.getId());
+
+        String beanType = "A";
+        String beanName = "a";
+        int durationMin = 10;
+        int durationMax = 20;
+        Double durationAvg = Double.valueOf((durationMax + durationMin) / 2);
+
+
+        Metric m1 = new Metric();
+        m1.setBeanType(beanType);
+        m1.setBeanName(beanName);
+        m1.setDuration(durationMin);
+
+        Metric m2 = new Metric();
+        m2.setBeanType(beanType);
+        m2.setBeanName(beanName);
+        m2.setDuration(durationMax);
+
+        metricDAO.addMetric(m1);
+        metricDAO.addMetric(m2);
+
+        mockMvc.perform(get("/metric/processed")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].beanName", is(beanName)))
+                .andExpect(jsonPath("$[0].beanType", is(beanType)))
+                .andExpect(jsonPath("$[0].durationAvg", is(durationAvg)))
+                .andExpect(jsonPath("$[0].durationMin", is(durationMin)))
+                .andExpect(jsonPath("$[0].durationMax", is(durationMax)));
+
+        metricDAO.deleteMetric(m1.getId());
+        metricDAO.deleteMetric(m2.getId());
     }
 
     @Test

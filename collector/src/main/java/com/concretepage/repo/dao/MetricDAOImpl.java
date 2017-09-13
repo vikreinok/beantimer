@@ -1,6 +1,7 @@
 package com.concretepage.repo.dao;
 
 import com.concretepage.entity.Metric;
+import com.concretepage.model.ProcessedMetric;
 import com.concretepage.repo.MetricRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Transactional
@@ -21,7 +23,7 @@ public class MetricDAOImpl implements MetricDAO {
     private MetricRepository metricRepository;
 
     @Override
-    public Metric getMetricById(int id) {
+    public Metric getMetricById(long id) {
         return entityManager.find(Metric.class, (long) id);
     }
 
@@ -43,7 +45,7 @@ public class MetricDAOImpl implements MetricDAO {
     }
 
     @Override
-    public void deleteMetric(int id) {
+    public void deleteMetric(long id) {
         entityManager.remove(getMetricById(id));
     }
 
@@ -67,5 +69,16 @@ public class MetricDAOImpl implements MetricDAO {
         existingMetric.setInitialisationStartTimeMillis(metric.getInitialisationStartTimeMillis());
 
         metricRepository.save(existingMetric);
+    }
+
+    @Override
+    @Transactional
+    public List<ProcessedMetric> getMetricsProcessed() {
+
+        String queryStr = "SELECT NEW com.concretepage.model.ProcessedMetric(beanName, beanType, AVG(duration), MIN(duration), MAX(duration)) FROM Metric  GROUP BY beanName, beanType ORDER BY initialisationStartTimeMillis DESC";
+
+        TypedQuery<ProcessedMetric> query = entityManager.createQuery(queryStr, ProcessedMetric.class);
+
+        return query.getResultList();
     }
 }

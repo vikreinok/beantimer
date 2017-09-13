@@ -42,7 +42,7 @@ public class Metric extends TimedStampedIdEntity implements Serializable {
         return duration;
     }
 
-    public void setDuration(Long duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
 

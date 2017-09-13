@@ -1,6 +1,7 @@
 package com.concretepage.controller;
 
 import com.concretepage.entity.Metric;
+import com.concretepage.model.ProcessedMetric;
 import com.concretepage.service.MetricService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,12 @@ public class MetricController {
     public ResponseEntity<List<Metric>> getAllMetrics() {
         List<Metric> list = metricService.getAllMetrics();
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/processed")
+    public ResponseEntity<List<ProcessedMetric>> getProcessedMetrics() {
+        List<ProcessedMetric> processedMetrics = metricService.getProcessedMetrics();
+        return new ResponseEntity<>(processedMetrics, HttpStatus.OK);
     }
 
     @PutMapping()
