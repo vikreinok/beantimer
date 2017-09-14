@@ -24,19 +24,17 @@ public class MetricDAOImpl implements MetricDAO {
 
     @Override
     public Metric getMetricById(long id) {
-        return entityManager.find(Metric.class, (long) id);
+        return metricRepository.findOne(id);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Metric> getAllMetrics() {
-        String hql = "FROM Metric as m ORDER BY m.id";
-        return (List<Metric>) entityManager.createQuery(hql).getResultList();
+        return metricRepository.findAll();
     }
 
     @Override
     public void addMetric(Metric metric) {
-        entityManager.persist(metric);
+        metricRepository.save(metric);
     }
 
     @Override
@@ -46,23 +44,11 @@ public class MetricDAOImpl implements MetricDAO {
 
     @Override
     public void deleteMetric(long id) {
-        entityManager.remove(getMetricById(id));
+        metricRepository.delete(id);
     }
 
     @Override
-    public boolean metricExists(String beanName, String beanType) {
-        String hql = "FROM Metric as m WHERE m.beanName = ? and m.beanType = ?";
-        int count = entityManager.createQuery(hql).setParameter(1, beanName)
-                .setParameter(2, beanType).getResultList().size();
-        return count > 0 ? true : false;
-    }
-
-    @Override
-    public void updateMetric(long id, Metric metric) {
-        Metric existingMetric = metricRepository.findOne(id);
-        if (existingMetric == null) {
-            throw new IllegalArgumentException("Can't find metric with ID " + id);
-        }
+    public void updateMetric(long id, Metric existingMetric, Metric metric) {
         existingMetric.setBeanName(metric.getBeanName());
         existingMetric.setBeanType(metric.getBeanType());
         existingMetric.setDuration(metric.getDuration());
@@ -80,5 +66,10 @@ public class MetricDAOImpl implements MetricDAO {
         TypedQuery<ProcessedMetric> query = entityManager.createQuery(queryStr, ProcessedMetric.class);
 
         return query.getResultList();
+    }
+
+    @Override
+    public void deleteAll() {
+        metricRepository.deleteAll();
     }
 }

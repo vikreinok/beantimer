@@ -17,10 +17,10 @@ public interface MetricDAO {
 
     void deleteMetric(long id);
 
-    boolean metricExists(String title, String location);
-
-    void updateMetric(long id, Metric metric);
+    void updateMetric(long id, Metric existingMetric, Metric metric);
 
     List<ProcessedMetric> getMetricsProcessed();
+
+    void deleteAll();
 }
  
