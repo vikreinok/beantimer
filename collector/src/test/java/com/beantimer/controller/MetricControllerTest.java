@@ -1,10 +1,10 @@
-package com.concretepage.controller;
+package com.beantimer.controller;
 
 
-import com.concretepage.SpringContextTest;
-import com.concretepage.entity.Metric;
-import com.concretepage.repo.MetricRepository;
-import com.concretepage.repo.dao.MetricDAO;
+import com.beantimer.SpringContextTest;
+import com.beantimer.entity.Metric;
+import com.beantimer.repo.MetricRepository;
+import com.beantimer.repo.dao.MetricDAO;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

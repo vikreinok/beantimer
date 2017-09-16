@@ -1,4 +1,4 @@
-package com.concretepage;
+package com.beantimer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  */
 @SpringBootApplication
-@ComponentScan({"com.concretepage"})
-@EntityScan("com.concretepage.entity")
-@EnableJpaRepositories("com.concretepage.repo")
+@ComponentScan({"com.beantimer"})
+@EntityScan("com.beantimer.entity")
+@EnableJpaRepositories("com.beantimer.repo")
 @EnableTransactionManagement
 public class MyApplication {
 

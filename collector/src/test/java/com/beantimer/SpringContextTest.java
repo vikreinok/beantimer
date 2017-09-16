@@ -1,4 +1,4 @@
-package com.concretepage;
+package com.beantimer;
 
 import org.junit.Ignore;
 import org.junit.runner.RunWith;

@@ -1,7 +1,7 @@
-package com.concretepage.repo.dao;
+package com.beantimer.repo.dao;
 
-import com.concretepage.entity.Metric;
-import com.concretepage.model.ProcessedMetric;
+import com.beantimer.entity.Metric;
+import com.beantimer.model.ProcessedMetric;
 
 import java.util.List;
 

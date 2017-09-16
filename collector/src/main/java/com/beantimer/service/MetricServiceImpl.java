@@ -1,8 +1,8 @@
-package com.concretepage.service;
+package com.beantimer.service;
 
-import com.concretepage.entity.Metric;
-import com.concretepage.model.ProcessedMetric;
-import com.concretepage.repo.dao.MetricDAO;
+import com.beantimer.entity.Metric;
+import com.beantimer.model.ProcessedMetric;
+import com.beantimer.repo.dao.MetricDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

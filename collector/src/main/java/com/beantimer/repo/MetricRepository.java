@@ -1,6 +1,6 @@
-package com.concretepage.repo;
+package com.beantimer.repo;
 
-import com.concretepage.entity.Metric;
+import com.beantimer.entity.Metric;
 import org.springframework.stereotype.Repository;
 
 /**

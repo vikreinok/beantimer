@@ -1,4 +1,4 @@
-package com.concretepage.entity;
+package com.beantimer.entity;
 
 import javax.persistence.*;
 

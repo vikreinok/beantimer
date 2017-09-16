@@ -1,7 +1,7 @@
-package com.concretepage.service;
+package com.beantimer.service;
 
-import com.concretepage.entity.Metric;
-import com.concretepage.model.ProcessedMetric;
+import com.beantimer.entity.Metric;
+import com.beantimer.model.ProcessedMetric;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

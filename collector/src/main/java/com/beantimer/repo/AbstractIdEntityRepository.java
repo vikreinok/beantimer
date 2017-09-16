@@ -1,6 +1,6 @@
-package com.concretepage.repo;
+package com.beantimer.repo;
 
-import com.concretepage.entity.IdEntity;
+import com.beantimer.entity.IdEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;

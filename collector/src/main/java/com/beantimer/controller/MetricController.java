@@ -1,8 +1,8 @@
-package com.concretepage.controller;
+package com.beantimer.controller;
 
-import com.concretepage.entity.Metric;
-import com.concretepage.model.ProcessedMetric;
-import com.concretepage.service.MetricService;
+import com.beantimer.entity.Metric;
+import com.beantimer.model.ProcessedMetric;
+import com.beantimer.service.MetricService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

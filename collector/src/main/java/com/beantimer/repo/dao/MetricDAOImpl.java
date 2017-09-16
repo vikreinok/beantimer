@@ -1,8 +1,8 @@
-package com.concretepage.repo.dao;
+package com.beantimer.repo.dao;
 
-import com.concretepage.entity.Metric;
-import com.concretepage.model.ProcessedMetric;
-import com.concretepage.repo.MetricRepository;
+import com.beantimer.entity.Metric;
+import com.beantimer.model.ProcessedMetric;
+import com.beantimer.repo.MetricRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +61,7 @@ public class MetricDAOImpl implements MetricDAO {
     @Transactional
     public List<ProcessedMetric> getMetricsProcessed() {
 
-        String queryStr = "SELECT NEW com.concretepage.model.ProcessedMetric(beanName, beanType, AVG(duration), MIN(duration), MAX(duration)) FROM Metric  GROUP BY beanName, beanType ORDER BY initialisationStartTimeMillis DESC";
+        String queryStr = "SELECT NEW com.beantimer.model.ProcessedMetric(beanName, beanType, AVG(duration), MIN(duration), MAX(duration)) FROM Metric  GROUP BY beanName, beanType ORDER BY initialisationStartTimeMillis DESC";
 
         TypedQuery<ProcessedMetric> query = entityManager.createQuery(queryStr, ProcessedMetric.class);
 

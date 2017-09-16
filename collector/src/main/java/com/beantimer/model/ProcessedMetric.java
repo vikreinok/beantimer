@@ -1,4 +1,4 @@
-package com.concretepage.model;
+package com.beantimer.model;
 
 /**
  *

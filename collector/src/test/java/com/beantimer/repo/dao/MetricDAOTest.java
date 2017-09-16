@@ -1,8 +1,8 @@
-package com.concretepage.repo.dao;
+package com.beantimer.repo.dao;
 
-import com.concretepage.SpringContextTest;
-import com.concretepage.entity.Metric;
-import com.concretepage.model.ProcessedMetric;
+import com.beantimer.SpringContextTest;
+import com.beantimer.entity.Metric;
+import com.beantimer.model.ProcessedMetric;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
