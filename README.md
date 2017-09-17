@@ -7,7 +7,7 @@ Have You ever wondered what takes up all the time during application startup? We
 There is a small spring boot app which collects and presents all data. 
 
 
-How to use bean timer?
+How to use the bean timer?
 
 
 **Build agent:**
@@ -16,12 +16,10 @@ How to use bean timer?
 * cd agent 
 * mvn clean package assembly:single -DskipTests
 
-
 **Add to VM options:**
  * -DpackageToMeasure=com.corp.project -javaagent: abolute path \beantimer\target\beantimer.jar
 
 **Start collector app**
-
 * cd ..
 * cd collector
 * mvn spring-boot:run (uses in memory H2 DB)
@@ -29,4 +27,5 @@ How to use bean timer?
 -----------------------
 
 Now, just run your integration tests or do some manual testing with app redeploys.
+Stats will be avialbe at localhost:8080
 
