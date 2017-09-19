@@ -8,7 +8,7 @@ TODO file output
 
 **Build agent:**
 
-/agent package assembly:single -DskipTests
+agent package assembly:single -DskipTests
 
 
 **Add to VM options:**
