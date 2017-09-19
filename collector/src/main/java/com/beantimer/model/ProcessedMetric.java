@@ -5,6 +5,10 @@ package com.beantimer.model;
  */
 public class ProcessedMetric {
 
+
+    public final static String TOTAL_BEAN_NAME = "Total";
+    public final static String TOTAL_BEAN_TYPE = "";
+
     private String beanName;
     private String beanType;
     private Double durationAvg;

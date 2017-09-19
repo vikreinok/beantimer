@@ -54,18 +54,18 @@ public class MetricDAOTest extends SpringContextTest {
         metricDAO.addMetric(m2);
 
 
-        List<ProcessedMetric> metricProcessedList = metricDAO.getMetricsProcessed();
+        List<ProcessedMetric> processedMetrics = metricDAO.getMetricsProcessed();
 
 
-        assertNotNull(metricProcessedList);
-        assertEquals(1, metricProcessedList.size());
-        ProcessedMetric metricProcessed = metricProcessedList.get(0);
-        assertEquals(beanType, metricProcessed.getBeanType());
-        assertEquals(beanName, metricProcessed.getBeanName());
-        assertEquals(durationAvg, metricProcessed.getDurationAvg(), 0.1);
-        assertEquals(durationMin, metricProcessed.getDurationMin());
-        assertEquals(durationMax, metricProcessed.getDurationMax());
-
+        assertNotNull(processedMetrics);
+        assertEquals(1, processedMetrics.size());
+        ProcessedMetric processedMetric = processedMetrics.get(0);
+        assertEquals(beanType, processedMetric.getBeanType());
+        assertEquals(beanName, processedMetric.getBeanName());
+        assertEquals(durationAvg, processedMetric.getDurationAvg(), 0.1);
+        assertEquals(durationMin, processedMetric.getDurationMin());
+        assertEquals(durationMax, processedMetric.getDurationMax());
 
     }
+
 }

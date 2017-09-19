@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_NAME;
+import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_TYPE;
+
 @Service
 public class MetricServiceImpl implements MetricService {
 
@@ -55,6 +58,19 @@ public class MetricServiceImpl implements MetricService {
 
     @Override
     public List<ProcessedMetric> getProcessedMetrics() {
-        return metricDAO.getMetricsProcessed();
+        List<ProcessedMetric> metricsProcessed = metricDAO.getMetricsProcessed();
+
+        double durationAvgTotal = 0;
+        long durationMinTotal = 0;
+        long durationMaxTotal = 0;
+        for (ProcessedMetric processedMetric : metricsProcessed) {
+            durationAvgTotal += processedMetric.getDurationAvg();
+            durationMinTotal += processedMetric.getDurationMin();
+            durationMaxTotal += processedMetric.getDurationMax();
+        }
+
+        metricsProcessed.add(new ProcessedMetric(TOTAL_BEAN_NAME, TOTAL_BEAN_TYPE, durationAvgTotal, durationMinTotal, durationMaxTotal));
+
+        return metricsProcessed;
     }
 }

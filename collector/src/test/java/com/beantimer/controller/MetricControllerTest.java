@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 
+import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_NAME;
+import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_TYPE;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -133,12 +135,17 @@ public class MetricControllerTest extends SpringContextTest {
         mockMvc.perform(get("/metric/processed")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].beanName", is(beanName)))
                 .andExpect(jsonPath("$[0].beanType", is(beanType)))
                 .andExpect(jsonPath("$[0].durationAvg", is(durationAvg)))
                 .andExpect(jsonPath("$[0].durationMin", is(durationMin)))
-                .andExpect(jsonPath("$[0].durationMax", is(durationMax)));
+                .andExpect(jsonPath("$[0].durationMax", is(durationMax)))
+                .andExpect(jsonPath("$[1].beanName", is(TOTAL_BEAN_NAME)))
+                .andExpect(jsonPath("$[1].beanType", is(TOTAL_BEAN_TYPE)))
+                .andExpect(jsonPath("$[1].durationAvg", is(durationAvg)))
+                .andExpect(jsonPath("$[1].durationMin", is(durationMin)))
+                .andExpect(jsonPath("$[1].durationMax", is(durationMax)));
 
         metricDAO.deleteMetric(m1.getId());
         metricDAO.deleteMetric(m2.getId());

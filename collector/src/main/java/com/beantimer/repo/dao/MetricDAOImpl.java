@@ -58,7 +58,6 @@ public class MetricDAOImpl implements MetricDAO {
     }
 
     @Override
-    @Transactional
     public List<ProcessedMetric> getMetricsProcessed() {
 
         String queryStr = "SELECT NEW com.beantimer.model.ProcessedMetric(beanName, beanType, AVG(duration), MIN(duration), MAX(duration)) FROM Metric  GROUP BY beanName, beanType ORDER BY initialisationStartTimeMillis DESC";
