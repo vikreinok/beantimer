@@ -16,16 +16,18 @@
     <tr>
         <th>Bean name</th>
         <th>Bean type</th>
-        <th>Duration</th>
-        <th>InitialisationStartTimeMillis</th>
+        <th>Average</th>
+        <th>Minimal</th>
+        <th>Maximal</th>
     </tr>
 
 <#list metrics as metric>
     <tr>
         <td>${metric.beanName}</td>
         <td>${metric.beanType}</td>
-        <td>${metric.duration}</td>
-        <td>${metric.initialisationStartTimeMillis}</td>
+        <td>${metric.durationAvg}</td>
+        <td>${metric.durationMin}</td>
+        <td>${metric.durationMax}</td>
     </tr>
 </#list>
 </table>
