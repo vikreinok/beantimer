@@ -141,11 +141,13 @@ public class MetricControllerTest extends SpringContextTest {
                 .andExpect(jsonPath("$[0].durationAvg", is(durationAvg)))
                 .andExpect(jsonPath("$[0].durationMin", is(durationMin)))
                 .andExpect(jsonPath("$[0].durationMax", is(durationMax)))
+                .andExpect(jsonPath("$[0].count", is(2)))
                 .andExpect(jsonPath("$[1].beanName", is(TOTAL_BEAN_NAME)))
                 .andExpect(jsonPath("$[1].beanType", is(TOTAL_BEAN_TYPE)))
                 .andExpect(jsonPath("$[1].durationAvg", is(durationAvg)))
                 .andExpect(jsonPath("$[1].durationMin", is(durationMin)))
-                .andExpect(jsonPath("$[1].durationMax", is(durationMax)));
+                .andExpect(jsonPath("$[1].durationMax", is(durationMax)))
+                .andExpect(jsonPath("$[1].count", is(1)));
 
         metricDAO.deleteMetric(m1.getId());
         metricDAO.deleteMetric(m2.getId());

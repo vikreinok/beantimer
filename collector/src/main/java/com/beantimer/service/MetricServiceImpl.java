@@ -69,7 +69,7 @@ public class MetricServiceImpl implements MetricService {
             durationMaxTotal += processedMetric.getDurationMax();
         }
 
-        metricsProcessed.add(new ProcessedMetric(TOTAL_BEAN_NAME, TOTAL_BEAN_TYPE, durationAvgTotal, durationMinTotal, durationMaxTotal));
+        metricsProcessed.add(new ProcessedMetric(TOTAL_BEAN_NAME, TOTAL_BEAN_TYPE, durationAvgTotal, durationMinTotal, durationMaxTotal, 1L));
 
         return metricsProcessed;
     }

@@ -19,6 +19,7 @@
         <th>Average</th>
         <th>Minimal</th>
         <th>Maximal</th>
+        <th>Count</th>
     </tr>
 
 <#list metrics as metric>
@@ -28,6 +29,7 @@
         <td align="right">${(metric.durationAvg/1000000)?string["0.0"]}</td>
         <td align="right">${(metric.durationMin/1000000)?string["0.0"]}</td>
         <td align="right">${(metric.durationMax/1000000)?string["0.0"]}</td>
+        <td align="right">${metric.count}</td>
     </tr>
 </#list>
 </table>

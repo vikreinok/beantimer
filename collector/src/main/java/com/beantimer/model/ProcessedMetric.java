@@ -14,14 +14,15 @@ public class ProcessedMetric {
     private Double durationAvg;
     private Long durationMin;
     private Long durationMax;
+    private Long count;
 
-
-    public ProcessedMetric(String beanName, String beanType, Double durationAvg, Long durationMin, Long durationMax) {
+    public ProcessedMetric(String beanName, String beanType, Double durationAvg, Long durationMin, Long durationMax, Long count) {
         this.beanName = beanName;
         this.beanType = beanType;
         this.durationAvg = durationAvg;
         this.durationMin = durationMin;
         this.durationMax = durationMax;
+        this.count = count;
     }
 
     public String getBeanName() {
@@ -44,6 +45,10 @@ public class ProcessedMetric {
         return durationMax;
     }
 
+    public Long getCount() {
+        return count;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("ProcessedMetric{");
@@ -52,6 +57,7 @@ public class ProcessedMetric {
         sb.append(", durationAvg=").append(durationAvg);
         sb.append(", durationMin=").append(durationMin);
         sb.append(", durationMax=").append(durationMax);
+        sb.append(", count=").append(count);
         sb.append('}');
         return sb.toString();
     }
