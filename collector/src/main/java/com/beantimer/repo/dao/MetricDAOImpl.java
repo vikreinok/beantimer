@@ -1,5 +1,6 @@
 package com.beantimer.repo.dao;
 
+import com.beantimer.controller.validator.OrderByValidator;
 import com.beantimer.entity.Metric;
 import com.beantimer.model.ProcessedMetric;
 import com.beantimer.repo.MetricRepository;
@@ -58,13 +59,30 @@ public class MetricDAOImpl implements MetricDAO {
     }
 
     @Override
-    public List<ProcessedMetric> getMetricsProcessed() {
+    public List<ProcessedMetric> getMetricsProcessed(String sort, String dir) {
 
-        String queryStr = "SELECT NEW com.beantimer.model.ProcessedMetric(beanName, beanType, AVG(duration), MIN(duration), MAX(duration), COUNT(beanName)) FROM Metric  GROUP BY beanName, beanType";
+        String orderByClause = validateAndDescideonuseOfSortParams(sort, dir);
+
+        String queryStr = String.format("SELECT " +
+                "NEW com.beantimer.model.ProcessedMetric(beanName, beanType, AVG(duration), MIN(duration), MAX(duration), COUNT(beanName)) " +
+                "FROM Metric " +
+                "GROUP BY beanName, beanType " +
+                "%s", orderByClause);
 
         TypedQuery<ProcessedMetric> query = entityManager.createQuery(queryStr, ProcessedMetric.class);
 
         return query.getResultList();
+    }
+
+    private String validateAndDescideonuseOfSortParams(String sort, String dir) {
+        String orderByClause = "";
+        try {
+            OrderByValidator.validate(ProcessedMetric.class, sort, dir);
+            orderByClause = String.format("ORDER BY %s %s", sort, dir);
+        } catch (Exception e) {
+
+        }
+        return orderByClause;
     }
 
     @Override

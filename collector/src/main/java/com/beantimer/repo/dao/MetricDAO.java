@@ -19,7 +19,7 @@ public interface MetricDAO {
 
     void updateMetric(long id, Metric existingMetric, Metric metric);
 
-    List<ProcessedMetric> getMetricsProcessed();
+    List<ProcessedMetric> getMetricsProcessed(String sort, String dir);
 
     void deleteAll();
 }

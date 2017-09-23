@@ -23,10 +23,12 @@ public class MetricDAOTest extends SpringContextTest {
 
     @Before
     public void setUp() throws Exception {
+
     }
 
     @After
     public void tearDown() throws Exception {
+        metricDAO.deleteAll();
     }
 
 
@@ -54,7 +56,7 @@ public class MetricDAOTest extends SpringContextTest {
         metricDAO.addMetric(m2);
 
 
-        List<ProcessedMetric> processedMetrics = metricDAO.getMetricsProcessed();
+        List<ProcessedMetric> processedMetrics = metricDAO.getMetricsProcessed(null, null);
 
 
         assertNotNull(processedMetrics);
@@ -65,6 +67,46 @@ public class MetricDAOTest extends SpringContextTest {
         assertEquals(durationAvg, processedMetric.getDurationAvg(), 0.1);
         assertEquals(durationMin, processedMetric.getDurationMin());
         assertEquals(durationMax, processedMetric.getDurationMax());
+
+    }
+
+    @Test
+    public void testGetProcessedMetric_sorting() throws Exception {
+
+        String beanType1 = "A1";
+        String beanName1 = "a1";
+        String beanType2 = "A2";
+        String beanName2 = "a2";
+        Long durationMin = 10L;
+        Long durationMax = 20L;
+
+
+        Metric m1 = new Metric();
+        m1.setBeanType(beanType1);
+        m1.setBeanName(beanName1);
+        m1.setDuration(durationMin);
+
+        Metric m2 = new Metric();
+        m2.setBeanType(beanType2);
+        m2.setBeanName(beanName2);
+        m2.setDuration(durationMax);
+
+        metricDAO.addMetric(m1);
+        metricDAO.addMetric(m2);
+
+
+        List<ProcessedMetric> processedMetrics = metricDAO.getMetricsProcessed("beanName", "ASC");
+
+
+        assertNotNull(processedMetrics);
+        assertEquals(2, processedMetrics.size());
+        ProcessedMetric processedMetric1 = processedMetrics.get(0);
+        ProcessedMetric processedMetric2 = processedMetrics.get(1);
+        assertEquals(beanType1, processedMetric1.getBeanType());
+        assertEquals(beanName1, processedMetric1.getBeanName());
+
+        assertEquals(beanType2, processedMetric2.getBeanType());
+        assertEquals(beanName2, processedMetric2.getBeanName());
 
     }
 

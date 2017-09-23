@@ -32,7 +32,7 @@ public class MetricController {
 
     @GetMapping("/processed")
     public ResponseEntity<List<ProcessedMetric>> getProcessedMetrics() {
-        List<ProcessedMetric> processedMetrics = metricService.getProcessedMetrics();
+        List<ProcessedMetric> processedMetrics = metricService.getProcessedMetrics(null, null);
         return new ResponseEntity<>(processedMetrics, HttpStatus.OK);
     }
 
