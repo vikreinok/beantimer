@@ -9,8 +9,11 @@
 <body>
 
 <a href="/">Index page</a>
+|
 <a href="/showMetrics">Sort by bean init. time</a>
+|
 <a href="/showMetrics?sort=beanName&dir=ASC">Sort by beanName</a>
+|
 <a href="/showMetrics?sort=durationAvg&dir=DESC">Sort by duration</a>
 
 <h2>Table of metrics</h2>

@@ -3,6 +3,7 @@ package com.beantimer.repo.dao;
 import com.beantimer.controller.validator.OrderByValidator;
 import com.beantimer.entity.Metric;
 import com.beantimer.model.ProcessedMetric;
+import com.beantimer.model.mapper.ProcessedMetricRowMapper;
 import com.beantimer.repo.MetricRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import java.util.List;
 
 @Transactional
@@ -64,14 +65,14 @@ public class MetricDAOImpl implements MetricDAO {
         String orderByClause = validateAndDescideonuseOfSortParams(sort, dir);
 
         String queryStr = String.format("SELECT " +
-                "NEW com.beantimer.model.ProcessedMetric(beanName, beanType, AVG(duration), MIN(duration), MAX(duration), COUNT(beanName)) " +
+                "beanName, beanType, AVG(duration) AS durationAvg, MIN(duration) AS durationMin, MAX(duration) AS durationMax, COUNT(beanName) AS count " +
                 "FROM Metric " +
                 "GROUP BY beanName, beanType " +
                 "%s", orderByClause);
 
-        TypedQuery<ProcessedMetric> query = entityManager.createQuery(queryStr, ProcessedMetric.class);
+        Query query = entityManager.createQuery(queryStr);
 
-        return query.getResultList();
+        return new ProcessedMetricRowMapper().map(query.getResultList());
     }
 
     private String validateAndDescideonuseOfSortParams(String sort, String dir) {
