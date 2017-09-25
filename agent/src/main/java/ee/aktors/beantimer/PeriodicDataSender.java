@@ -4,12 +4,15 @@ import ee.aktors.beantimer.comm.RestClient;
 import ee.aktors.beantimer.model.Measurement;
 import ee.aktors.beantimer.util.TimingUtil;
 
+import java.io.IOException;
 import java.util.Stack;
 
 public class PeriodicDataSender extends Thread {
 
     final private int sleepMs;
     RestClient restClient;
+
+    private static boolean collectorLaunched = false;
 
 
     public PeriodicDataSender(int sleepMs, RestClient restClient) {
@@ -24,13 +27,32 @@ public class PeriodicDataSender extends Thread {
             sleep(sleepMs);
 
             //TODO synchronize!!! producer consumer
-            Stack<Measurement> measurements = TimingUtil.getMeasurements();
+            Stack<Measurement> measurements = new Stack<>();
+            measurements.addAll(TimingUtil.getMeasurements());
 
             System.err.printf("Sending %d measurements %n", measurements.size());
-            restClient.sendMeasurements(measurements);
+            boolean successFulDelivery = restClient.sendMeasurements(measurements);
 
-            measurements.clear();
+            if (successFulDelivery) {
+                measurements.clear();
+            } else {
+                launchCollector();
+            }
 
+        }
+    }
+
+    private void launchCollector() {
+        try {
+            // Works only if agent path is build path of beantimer project
+            System.out.println("Launching collector");
+            if (!collectorLaunched) {
+                Runtime.getRuntime().exec("cmd.exe /c cd .. & cd .. & cd collector & mvn spring-boot:run");
+                collectorLaunched = true;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

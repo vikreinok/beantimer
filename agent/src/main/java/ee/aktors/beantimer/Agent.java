@@ -18,7 +18,7 @@ public class Agent {
         String packageToMeasure = System.getProperty("packageToMeasure");
 
         if (packageToMeasure == null || packageToMeasure.isEmpty()) {
-            LOG.error("Please specify package to instrument as a agent argument. For example  -DpackageToMeasure=com.corp.project  .../beantimer.jar");
+            LOG.error("Please specify package to instrument as a agent argument. For example  -DpackageToMeasure=com.corp.project  -javaagent:.../beantimer.jar");
             return;
         }
 
@@ -29,12 +29,12 @@ public class Agent {
         inst.addTransformer(new TimerBeanTransformer(classFilter));
         LOG.info("Agent initialized");
 
-        int period = 5000;
+        int periodMs = 10_000;
         String endpoint = "http://localhost:8080/metric/all";
         RestClient restClient = new RestClient(endpoint);
-        PeriodicDataSender periodicDataSender = new PeriodicDataSender(period, restClient);
+        PeriodicDataSender periodicDataSender = new PeriodicDataSender(periodMs, restClient);
         periodicDataSender.start();
-        LOG.info(String.format("PeriodicDataSender started with period %d ms against following endpoint %s", period, endpoint));
+        LOG.info(String.format("PeriodicDataSender started with periodMs %d ms against following endpoint %s", periodMs, endpoint));
 
     }
 

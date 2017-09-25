@@ -3,7 +3,6 @@ package ee.aktors.beantimer.comm;
 import ee.aktors.beantimer.model.Measurement;
 import ee.aktors.beantimer.util.JsonUtil;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -31,8 +30,10 @@ public class RestClient {
         System.err.println("Using default endpoint: " + endpoint);
     }
 
-    public void sendMeasurements(List<Measurement> measurements) {
+    public boolean sendMeasurements(List<Measurement> measurements) {
         String payload = JsonUtil.transformToJsonArray(measurements);
+
+        boolean success = true;
 
         DefaultHttpClient httpClient = null;
         BufferedReader br = null;
@@ -58,10 +59,9 @@ public class RestClient {
                 LOG.info(output);
             }
 
-        } catch (ClientProtocolException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            success = false;
         } finally {
             if (httpClient != null && httpClient.getConnectionManager() != null) {
                 httpClient.getConnectionManager().shutdown();
@@ -74,6 +74,6 @@ public class RestClient {
                 }
             }
         }
-
+        return success;
     }
 }
