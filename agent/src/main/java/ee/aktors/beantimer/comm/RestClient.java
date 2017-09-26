@@ -20,7 +20,7 @@ public class RestClient {
 
     final static Logger LOG = Logger.getLogger(RestClient.class);
 
-    private String endpoint = "http://localhost:8080/metric/all";
+    private String endpoint = "http://localhost:9999/metric/all";
 
     public RestClient(String endpoint) {
         this.endpoint = endpoint;

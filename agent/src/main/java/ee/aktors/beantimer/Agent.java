@@ -29,8 +29,8 @@ public class Agent {
         inst.addTransformer(new TimerBeanTransformer(classFilter));
         LOG.info("Agent initialized");
 
-        int periodMs = 10_000;
-        String endpoint = "http://localhost:8080/metric/all";
+        int periodMs = 20_000;
+        String endpoint = "http://localhost:9999/metric/all";
         RestClient restClient = new RestClient(endpoint);
         PeriodicDataSender periodicDataSender = new PeriodicDataSender(periodMs, restClient);
         periodicDataSender.start();
