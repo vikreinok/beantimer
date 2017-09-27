@@ -27,5 +27,5 @@ How to use the bean timer?
 -----------------------
 
 Now, just run your integration tests or do some manual testing with app redeploys.
-Stats will be avialbe at localhost:8080
+Stats will be available at localhost:9999
 
