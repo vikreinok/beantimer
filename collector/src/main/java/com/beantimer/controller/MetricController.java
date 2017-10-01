@@ -15,8 +15,12 @@ import java.util.List;
 @RequestMapping("metric")
 public class MetricController {
 
+    final private MetricService metricService;
+
     @Autowired
-    private MetricService metricService;
+    public MetricController(MetricService metricService) {
+        this.metricService = metricService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Metric> getMetricById(@PathVariable("id") Integer id) {

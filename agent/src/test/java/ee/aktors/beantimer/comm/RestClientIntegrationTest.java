@@ -4,7 +4,7 @@ import ee.aktors.beantimer.model.Measurement;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 /**
  *
@@ -22,7 +22,7 @@ public class RestClientIntegrationTest {
     @Test
     public void sendData() throws Exception {
         Measurement measurement = new Measurement("name1", "type", 10L, 100L);
-        restClient.sendMeasurements(Arrays.asList(measurement));
+        restClient.sendMeasurements(Collections.singletonList(measurement));
     }
 
 }

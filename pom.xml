@@ -93,7 +93,6 @@
                         <archive>
                             <manifest>
                                 <addClasspath>true</addClasspath>
-                                <mainClass>${classpath.main}</mainClass>
                             </manifest>
                         </archive>
                     </configuration>

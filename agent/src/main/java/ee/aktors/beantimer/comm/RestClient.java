@@ -2,15 +2,17 @@ package ee.aktors.beantimer.comm;
 
 import ee.aktors.beantimer.model.Measurement;
 import ee.aktors.beantimer.util.JsonUtil;
-import org.apache.http.HttpResponse;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 /**
@@ -18,7 +20,10 @@ import java.util.List;
  */
 public class RestClient {
 
-    final static Logger LOG = Logger.getLogger(RestClient.class);
+    private final static Logger LOG = Logger.getLogger(RestClient.class);
+    private static final String HEADER_NAME_ACCEPT = "accept";
+    private static final String HEADER_NAME_CONTENT_TYPE = "Content-Type";
+    private static final String HEADER_VALUE_APPLICATION_JSON = "application/json";
 
     private String endpoint = "http://localhost:9999/metric/all";
 
@@ -35,42 +40,38 @@ public class RestClient {
 
         boolean success = true;
 
-        DefaultHttpClient httpClient = null;
-        BufferedReader br = null;
+        CloseableHttpClient httpClient = null;
         try {
 
-            httpClient = new DefaultHttpClient();
+            httpClient = HttpClients.createDefault();
             HttpPut putRequest = new HttpPut(endpoint);
-            putRequest.addHeader("accept", "application/json");
-            putRequest.addHeader("Content-Type", "application/json");
+            putRequest.addHeader(HEADER_NAME_ACCEPT, HEADER_VALUE_APPLICATION_JSON);
+            putRequest.addHeader(HEADER_NAME_CONTENT_TYPE, HEADER_VALUE_APPLICATION_JSON);
             putRequest.setEntity(new StringEntity(payload));
 
-            HttpResponse response = httpClient.execute(putRequest);
 
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : " + response.getStatusLine().getStatusCode());
-            }
+            // Create a custom response handler
+            ResponseHandler<String> responseHandler = response -> {
+                int status = response.getStatusLine().getStatusCode();
+                if (status >= 200 && status < 300) {
+                    HttpEntity entity = response.getEntity();
+                    return entity != null ? EntityUtils.toString(entity) : null;
+                } else {
+                    throw new ClientProtocolException("Unexpected response status: " + status);
+                }
+            };
 
-            br = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-
-            String output;
-            LOG.info("Output from Server .... \n");
-            while ((output = br.readLine()) != null) {
-                LOG.info(output);
-            }
-
+            String response = httpClient.execute(putRequest, responseHandler);
+            LOG.info(response);
         } catch (Exception e) {
             e.printStackTrace();
             success = false;
         } finally {
-            if (httpClient != null && httpClient.getConnectionManager() != null) {
-                httpClient.getConnectionManager().shutdown();
-            }
-            if (br != null) {
+            if (httpClient != null) {
                 try {
-                    br.close();
+                    httpClient.close();
                 } catch (IOException e) {
-                    LOG.error(e);
+                    LOG.warn(e);
                 }
             }
         }

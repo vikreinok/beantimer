@@ -11,7 +11,7 @@ import java.util.zip.InflaterInputStream;
 public class Compressor {
 
     public static final int BUFFER_SIZE = 512;
-    public static final int COMRESSION_LEVEL = 1;
+    public static final int COMPRESSION_LEVEL = 1;
 
     public static String decompress(byte[] data) throws Exception {
         InputStream in = new ByteArrayInputStream(data);
@@ -29,7 +29,7 @@ public class Compressor {
     public static byte[] compressData(byte[] data) throws Exception {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DeflaterOutputStream dos = new DeflaterOutputStream(baos, new Deflater(COMRESSION_LEVEL));
+        DeflaterOutputStream dos = new DeflaterOutputStream(baos, new Deflater(COMPRESSION_LEVEL));
         dos.write(data);
         dos.flush();
         dos.close();

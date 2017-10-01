@@ -8,24 +8,18 @@ import java.lang.reflect.Field;
 public class OrderByValidator {
 
 
-    public static void validate(Class clazz, String columnName, String direction) {
-
-        boolean validDirection = false;
-        if ("ASC".equalsIgnoreCase(direction) || "DESC".equalsIgnoreCase(direction)) {
-            validDirection = true;
-        }
-
+    public static boolean checkIfClazzContainsColumn(Class clazz, String columnName) {
         boolean containsField = false;
         for (Field field : clazz.getDeclaredFields()) {
             if (field.getName().equalsIgnoreCase(columnName)) {
                 containsField = true;
-                continue;
+                break;
             }
         }
+        return containsField;
+    }
 
-        if (!containsField || !validDirection) {
-            throw new IllegalArgumentException(String.format("Class %s contains %s  dir in {'ASC', 'DESC'} %s", clazz.getName(), columnName, direction));
-        }
-
+    public static boolean validateDirection(String direction) {
+        return "ASC".equalsIgnoreCase(direction) || "DESC".equalsIgnoreCase(direction);
     }
 }

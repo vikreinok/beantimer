@@ -21,8 +21,12 @@ import java.util.Map;
 @RequestMapping("showMetrics")
 public class ShowMetricController {
 
+    private final MetricService metricService;
+
     @Autowired
-    private MetricService metricService;
+    public ShowMetricController(MetricService metricService) {
+        this.metricService = metricService;
+    }
 
     @GetMapping()
     public ModelAndView showCities(@RequestParam(value="sort", required = false) String sort, @RequestParam(value="dir",required = false) String dir) {

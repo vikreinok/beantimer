@@ -51,13 +51,14 @@ public class MetricControllerTest extends SpringContextTest {
 
     @Autowired
     private MetricDAO metricDAO;
+
     @Autowired
     private MetricRepository metricRepository;
 
     @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
 
-        this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream()
+        this.mappingJackson2HttpMessageConverter = Arrays.stream(converters)
                 .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
                 .findAny()
                 .orElse(null);
@@ -116,7 +117,7 @@ public class MetricControllerTest extends SpringContextTest {
         String beanName = "a";
         int durationMin = 10;
         int durationMax = 20;
-        Double durationAvg = Double.valueOf((durationMax + durationMin) / 2);
+        Double durationAvg = (double) ((durationMax + durationMin) / 2);
 
 
         Metric m1 = new Metric();

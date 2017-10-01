@@ -14,8 +14,12 @@ import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_TYPE;
 @Service
 public class MetricServiceImpl implements MetricService {
 
+    private final MetricDAO metricDAO;
+
     @Autowired
-    private MetricDAO metricDAO;
+    public MetricServiceImpl(MetricDAO metricDAO) {
+        this.metricDAO = metricDAO;
+    }
 
     @Override
     public Metric getMetricById(long id) {

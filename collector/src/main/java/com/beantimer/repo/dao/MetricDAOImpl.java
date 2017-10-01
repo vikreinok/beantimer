@@ -21,8 +21,12 @@ public class MetricDAOImpl implements MetricDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
+    private final MetricRepository metricRepository;
+
     @Autowired
-    private MetricRepository metricRepository;
+    public MetricDAOImpl(MetricRepository metricRepository) {
+        this.metricRepository = metricRepository;
+    }
 
     @Override
     public Metric getMetricById(long id) {
@@ -62,7 +66,7 @@ public class MetricDAOImpl implements MetricDAO {
     @Override
     public List<ProcessedMetric> getMetricsProcessed(String sort, String dir) {
 
-        String orderByClause = validateAndDescideonuseOfSortParams(sort, dir);
+        String orderByClause = validateAndDecideOnUseOfSortParams(sort, dir);
 
         String queryStr = String.format("SELECT " +
                 "beanName, beanType, AVG(duration) AS durationAvg, MIN(duration) AS durationMin, MAX(duration) AS durationMax, COUNT(beanName) AS count " +
@@ -75,14 +79,13 @@ public class MetricDAOImpl implements MetricDAO {
         return new ProcessedMetricRowMapper().map(query.getResultList());
     }
 
-    private String validateAndDescideonuseOfSortParams(String sort, String dir) {
+    private String validateAndDecideOnUseOfSortParams(String sort, String dir) {
         String orderByClause = "";
-        try {
-            OrderByValidator.validate(ProcessedMetric.class, sort, dir);
-            orderByClause = String.format("ORDER BY %s %s", sort, dir);
-        } catch (Exception e) {
 
+        if (OrderByValidator.checkIfClazzContainsColumn(ProcessedMetric.class, sort) && OrderByValidator.validateDirection(dir)) {
+            orderByClause = String.format("ORDER BY %s %s", sort, dir);
         }
+
         return orderByClause;
     }
 

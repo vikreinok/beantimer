@@ -29,7 +29,7 @@ public class MeasurementsCSVBuilder {
     /**
      * Add columns to CSV file
      *
-     * @param columns
+     * @param columns obj.toString
      */
     public MeasurementsCSVBuilder addColumns(Object... columns) {
         for (Object o : columns) addColumn(o);
