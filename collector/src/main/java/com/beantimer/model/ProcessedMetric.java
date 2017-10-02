@@ -9,12 +9,12 @@ public class ProcessedMetric {
     public final static String TOTAL_BEAN_NAME = "Total";
     public final static String TOTAL_BEAN_TYPE = "";
 
-    private String beanName;
-    private String beanType;
-    private Double durationAvg;
-    private Long durationMin;
-    private Long durationMax;
-    private Long count;
+    final private String beanName;
+    final private String beanType;
+    final private Double durationAvg;
+    final private Long durationMin;
+    final private Long durationMax;
+    final private Long count;
 
     public ProcessedMetric(String beanName, String beanType, Double durationAvg, Long durationMin, Long durationMax, Long count) {
         this.beanName = beanName;

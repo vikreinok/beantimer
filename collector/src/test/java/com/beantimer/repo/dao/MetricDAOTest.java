@@ -4,7 +4,6 @@ import com.beantimer.SpringContextTest;
 import com.beantimer.entity.Metric;
 import com.beantimer.model.ProcessedMetric;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,11 +19,6 @@ public class MetricDAOTest extends SpringContextTest {
 
     @Autowired
     private MetricDAO metricDAO;
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
 
     @After
     public void tearDown() throws Exception {

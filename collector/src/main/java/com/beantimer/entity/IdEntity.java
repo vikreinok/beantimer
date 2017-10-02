@@ -9,7 +9,7 @@ import javax.persistence.*;
 public abstract class IdEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
 
@@ -17,9 +17,8 @@ public abstract class IdEntity {
         return id;
     }
 
-    protected void setId(Long ID)
-    {
-        this.id = ID;
+    protected void setId(Long id) {
+        this.id = id;
     }
 
     @Override

@@ -117,7 +117,7 @@ public class MetricControllerTest extends SpringContextTest {
         String beanName = "a";
         int durationMin = 10;
         int durationMax = 20;
-        Double durationAvg = (double) ((durationMax + durationMin) / 2);
+        Double durationAvg = (double)(durationMax + durationMin) / 2;
 
 
         Metric m1 = new Metric();

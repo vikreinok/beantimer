@@ -67,13 +67,15 @@ public class MetricServiceImpl implements MetricService {
         double durationAvgTotal = 0;
         long durationMinTotal = 0;
         long durationMaxTotal = 0;
+        long countTotal = 0;
         for (ProcessedMetric processedMetric : metricsProcessed) {
             durationAvgTotal += processedMetric.getDurationAvg();
             durationMinTotal += processedMetric.getDurationMin();
             durationMaxTotal += processedMetric.getDurationMax();
+            countTotal += processedMetric.getCount();
         }
 
-        metricsProcessed.add(new ProcessedMetric(TOTAL_BEAN_NAME, TOTAL_BEAN_TYPE, durationAvgTotal, durationMinTotal, durationMaxTotal, 1L));
+        metricsProcessed.add(new ProcessedMetric(TOTAL_BEAN_NAME, TOTAL_BEAN_TYPE, durationAvgTotal, durationMinTotal, durationMaxTotal, countTotal));
 
         return metricsProcessed;
     }
