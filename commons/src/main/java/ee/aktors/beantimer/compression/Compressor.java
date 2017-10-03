@@ -28,13 +28,13 @@ public class Compressor {
 
     public static byte[] compressData(byte[] data) throws Exception {
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DeflaterOutputStream dos = new DeflaterOutputStream(baos, new Deflater(COMPRESSION_LEVEL));
-        dos.write(data);
-        dos.flush();
-        dos.close();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(byteArrayOutputStream, new Deflater(COMPRESSION_LEVEL));
+        deflaterOutputStream.write(data);
+        deflaterOutputStream.flush();
+        deflaterOutputStream.close();
 
-        return baos.toByteArray();
+        return byteArrayOutputStream.toByteArray();
     }
 
 }
