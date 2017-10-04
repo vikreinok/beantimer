@@ -29,3 +29,9 @@ How to use the bean timer?
 Now, just run your integration tests or do some manual testing with app redeploys.
 Stats will be available at localhost:9999
 
+
+------------------------
+
+Upcoming features:
+* Scatter graph
+* Bean type indicators
