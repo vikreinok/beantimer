@@ -17,6 +17,8 @@ public class Metric extends TimedStampedIdEntity implements Serializable {
     private Long duration;
     @Column(name = "initialisationStartTimeMillis")
     private Long initialisationStartTimeMillis;
+    @Column(name = "beanScope")
+    private String beanScope;
 
 
     public Metric() {
@@ -52,5 +54,13 @@ public class Metric extends TimedStampedIdEntity implements Serializable {
 
     public void setInitialisationStartTimeMillis(Long initialisationStartTimeMillis) {
         this.initialisationStartTimeMillis = initialisationStartTimeMillis;
+    }
+
+    public String getBeanScope() {
+        return beanScope;
+    }
+
+    public void setBeanScope(String beanScope) {
+        this.beanScope = beanScope;
     }
 }

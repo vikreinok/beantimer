@@ -19,4 +19,4 @@ agent package assembly:single -DskipTests
 ------------------------
 
 Upcoming features:
-* Bean type indicators (singleton, prototype)
+* Bean scope indicators (singleton, prototype)

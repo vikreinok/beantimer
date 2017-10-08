@@ -34,4 +34,4 @@ Stats will be available at localhost:9999
 
 Upcoming features:
 * Gantt plot (beans x loading time)
-* Bean type indicators (singleton, prototype)
+* Bean scope indicators (singleton, prototype)
