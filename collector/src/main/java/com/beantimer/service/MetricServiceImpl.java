@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_NAME;
+import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_SCOPE;
 import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_TYPE;
 
 @Service
@@ -75,7 +76,7 @@ public class MetricServiceImpl implements MetricService {
             countTotal += processedMetric.getCount();
         }
 
-        metricsProcessed.add(new ProcessedMetric(TOTAL_BEAN_NAME, TOTAL_BEAN_TYPE, durationAvgTotal, durationMinTotal, durationMaxTotal, countTotal));
+        metricsProcessed.add(new ProcessedMetric(TOTAL_BEAN_NAME, TOTAL_BEAN_TYPE, TOTAL_BEAN_SCOPE, durationAvgTotal, durationMinTotal, durationMaxTotal, countTotal));
 
         return metricsProcessed;
     }

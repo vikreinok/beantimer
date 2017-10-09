@@ -22,11 +22,11 @@ public class TimedStampedIdEntity extends IdEntity {
     }
 
     public Date getCreated() {
-        return (Date) created.clone();
+        return created;
     }
 
     public void setCreated(Date created) {
-        this.created = (Date) created.clone();
+        this.created = created;
     }
 
 }

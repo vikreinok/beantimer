@@ -69,9 +69,9 @@ public class MetricDAOImpl implements MetricDAO {
         String orderByClause = validateAndDecideOnUseOfSortParams(sort, dir);
 
         String queryStr = String.format("SELECT " +
-                "beanName, beanType, AVG(duration) AS durationAvg, MIN(duration) AS durationMin, MAX(duration) AS durationMax, COUNT(beanName) AS count " +
+                "beanName, beanType, 'singleton' AS beanScope, AVG(duration) AS durationAvg, MIN(duration) AS durationMin, MAX(duration) AS durationMax, COUNT(beanName) AS count " +
                 "FROM Metric " +
-                "GROUP BY beanName, beanType " +
+                "GROUP BY beanName, beanType, beanScope " +
                 "%s", orderByClause);
 
         Query query = entityManager.createQuery(queryStr);

@@ -31,6 +31,7 @@ public class MetricDAOTest extends SpringContextTest {
 
         String beanType = "A";
         String beanName = "a";
+        String beanScope = "singleton";
         Long durationMin = 10L;
         Long durationMax = 20L;
         Long durationAvg = (durationMax + durationMin) / 2;
@@ -39,11 +40,13 @@ public class MetricDAOTest extends SpringContextTest {
         Metric m1 = new Metric();
         m1.setBeanType(beanType);
         m1.setBeanName(beanName);
+        m1.setBeanScope(beanScope);
         m1.setDuration(durationMin);
 
         Metric m2 = new Metric();
         m2.setBeanType(beanType);
         m2.setBeanName(beanName);
+        m2.setBeanScope(beanScope);
         m2.setDuration(durationMax);
 
         metricDAO.addMetric(m1);
@@ -58,6 +61,7 @@ public class MetricDAOTest extends SpringContextTest {
         ProcessedMetric processedMetric = processedMetrics.get(0);
         assertEquals(beanType, processedMetric.getBeanType());
         assertEquals(beanName, processedMetric.getBeanName());
+        assertEquals(beanScope, processedMetric.getBeanScope());
         assertEquals(durationAvg, processedMetric.getDurationAvg(), 0.1);
         assertEquals(durationMin, processedMetric.getDurationMin());
         assertEquals(durationMax, processedMetric.getDurationMax());
