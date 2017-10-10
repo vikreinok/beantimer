@@ -19,6 +19,8 @@ public class TimerBeanTransformer implements ClassFileTransformer {
 
     public static final String CLASSPATH_PROXY = "com.sun.proxy.$Proxy";
     public static final String CLASSPATH_CONFIGURATION = "org.springframework.context.annotation.Configuration";
+    public static final String CLASSPATH_BEAN = "org.springframework.context.annotation.Bean";
+    public static final String CLASSPATH_SCOPE = "org.springframework.context.annotation.Scopeorg.springframework.context.annotation.Scope";
 
     final ClassFilter classFilter;
 
@@ -71,16 +73,22 @@ public class TimerBeanTransformer implements ClassFileTransformer {
     private void findBeanAnnotations(CtMethod method) throws Exception {
         Object[] methodAnnotations = method.getAnnotations();
 
-        Proxy methodProxy;
+        Proxy annotationProxy;
         for (Object methodAnnotation : methodAnnotations) {
-            methodProxy = (Proxy) methodAnnotation;
-            if (methodProxy.toString().endsWith("Bean")) {
-                addTimer(method);
+            annotationProxy = (Proxy) methodAnnotation;
+//            System.err.println("Annotation " + annotationProxy.toString());;
+
+            if (annotationProxy.toString().contains(CLASSPATH_SCOPE)) {
+                System.err.println("Scope " + annotationProxy.toString());
+                //@org.springframework.context.annotation.Scope(value="session", proxyMode=org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS)
+            }
+            if (annotationProxy.toString().contains(CLASSPATH_BEAN)) {
+                addInstrumentation(method);
             }
         }
     }
 
-    private void addTimer(CtMethod method) throws Exception {
+    private void addInstrumentation(CtMethod method) throws Exception {
         String methodName = method.getName();
         String returnType = method.getReturnType().getSimpleName();
         method.addLocalVariable("currentMillis", CtClass.longType);
@@ -88,7 +96,7 @@ public class TimerBeanTransformer implements ClassFileTransformer {
         method.insertBefore("currentMillis = System.currentTimeMillis();");
         method.insertBefore("elapsedTime = System.nanoTime();");
         method.insertAfter("{elapsedTime = System.nanoTime() - elapsedTime; " +
-                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + methodName + "\",\"" + returnType + "\", elapsedTime, currentMillis);}");
+                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + methodName + "\",\"" + returnType + "\",\"" + returnType + "\", elapsedTime, currentMillis);}");
     }
 
 }
