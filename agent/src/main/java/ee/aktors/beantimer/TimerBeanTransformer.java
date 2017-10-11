@@ -1,5 +1,6 @@
 package ee.aktors.beantimer;
 
+import ee.aktors.beantimer.util.AnnotationUtil;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -20,7 +21,8 @@ public class TimerBeanTransformer implements ClassFileTransformer {
     public static final String CLASSPATH_PROXY = "com.sun.proxy.$Proxy";
     public static final String CLASSPATH_CONFIGURATION = "org.springframework.context.annotation.Configuration";
     public static final String CLASSPATH_BEAN = "org.springframework.context.annotation.Bean";
-    public static final String CLASSPATH_SCOPE = "org.springframework.context.annotation.Scopeorg.springframework.context.annotation.Scope";
+    public static final String CLASSPATH_SCOPE = "org.springframework.context.annotation.Scope";
+    public static final String SPRING_BEAN_DEFAULT_SCOPE = "singleton";
 
     final ClassFilter classFilter;
 
@@ -76,19 +78,19 @@ public class TimerBeanTransformer implements ClassFileTransformer {
         Proxy annotationProxy;
         for (Object methodAnnotation : methodAnnotations) {
             annotationProxy = (Proxy) methodAnnotation;
-//            System.err.println("Annotation " + annotationProxy.toString());;
+            String proxy = annotationProxy.toString();
 
-            if (annotationProxy.toString().contains(CLASSPATH_SCOPE)) {
-                System.err.println("Scope " + annotationProxy.toString());
-                //@org.springframework.context.annotation.Scope(value="session", proxyMode=org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS)
+            String scope = SPRING_BEAN_DEFAULT_SCOPE;
+            if (proxy.contains(CLASSPATH_SCOPE)) {
+                scope = AnnotationUtil.parseValue(proxy);
             }
-            if (annotationProxy.toString().contains(CLASSPATH_BEAN)) {
-                addInstrumentation(method);
+            if (proxy.contains(CLASSPATH_BEAN)) {
+                addInstrumentation(method, scope);
             }
         }
     }
 
-    private void addInstrumentation(CtMethod method) throws Exception {
+    private void addInstrumentation(CtMethod method, String scope) throws Exception {
         String methodName = method.getName();
         String returnType = method.getReturnType().getSimpleName();
         method.addLocalVariable("currentMillis", CtClass.longType);
@@ -96,7 +98,7 @@ public class TimerBeanTransformer implements ClassFileTransformer {
         method.insertBefore("currentMillis = System.currentTimeMillis();");
         method.insertBefore("elapsedTime = System.nanoTime();");
         method.insertAfter("{elapsedTime = System.nanoTime() - elapsedTime; " +
-                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + methodName + "\",\"" + returnType + "\",\"" + returnType + "\", elapsedTime, currentMillis);}");
+                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + methodName + "\",\"" + returnType + "\",\"" + scope + "\", elapsedTime, currentMillis);}");
     }
 
 }

@@ -41,6 +41,6 @@ public class Measurement {
 
     @Override
     public String toString() {
-        return String.format("{\"beanName\":\"%s\",\"beanType\":\"%s\",\"duration\":\"%s\",\"initialisationStartTimeMillis\":\"%s\" }", getBeanName(), getBeanType(), getDuration(), getInitialisationStartTimeMillis());
+        return String.format("{\"beanName\":\"%s\",\"beanType\":\"%s\",\"beanScope\":\"%s\",\"duration\":\"%s\",\"initialisationStartTimeMillis\":\"%s\" }", getBeanName(), getBeanType(), getBeanScope(),  getDuration(), getInitialisationStartTimeMillis());
     }
 }
