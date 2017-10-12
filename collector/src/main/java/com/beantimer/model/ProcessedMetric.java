@@ -8,7 +8,7 @@ public class ProcessedMetric {
 
     public final static String TOTAL_BEAN_NAME = "Total";
     public final static String TOTAL_BEAN_TYPE = "";
-    public final static String TOTAL_BEAN_SCOPE = "singleton";
+    public final static String TOTAL_BEAN_SCOPE = "";
 
     final private String beanName;
     final private String beanType;

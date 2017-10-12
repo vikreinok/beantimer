@@ -57,6 +57,7 @@ public class MetricDAOImpl implements MetricDAO {
     public void updateMetric(long id, Metric existingMetric, Metric metric) {
         existingMetric.setBeanName(metric.getBeanName());
         existingMetric.setBeanType(metric.getBeanType());
+        existingMetric.setBeanScope(metric.getBeanScope());
         existingMetric.setDuration(metric.getDuration());
         existingMetric.setInitialisationStartTimeMillis(metric.getInitialisationStartTimeMillis());
 
@@ -69,7 +70,7 @@ public class MetricDAOImpl implements MetricDAO {
         String orderByClause = validateAndDecideOnUseOfSortParams(sort, dir);
 
         String queryStr = String.format("SELECT " +
-                "beanName, beanType, 'singleton' AS beanScope, AVG(duration) AS durationAvg, MIN(duration) AS durationMin, MAX(duration) AS durationMax, COUNT(beanName) AS count " +
+                "beanName, beanType, beanScope, AVG(duration) AS durationAvg, MIN(duration) AS durationMin, MAX(duration) AS durationMax, COUNT(beanName) AS count " +
                 "FROM Metric " +
                 "GROUP BY beanName, beanType, beanScope " +
                 "%s", orderByClause);

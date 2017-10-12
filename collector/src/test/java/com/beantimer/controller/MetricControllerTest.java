@@ -37,6 +37,7 @@ public class MetricControllerTest extends SpringContextTest {
 
     public static final String BEAN_NAME = "beanName";
     public static final String BEAN_TYPE = "BeanType";
+    public static final String BEAN_SCOPE = "singleton";
     public static final Long DURATION = 100000000000L;
     public static final Long INITIALISATION_START_TIME_MILLIS = 10000000000L;
 
@@ -75,6 +76,7 @@ public class MetricControllerTest extends SpringContextTest {
         metric = new Metric();
         metric.setBeanName(BEAN_NAME);
         metric.setBeanType(BEAN_TYPE);
+        metric.setBeanScope(BEAN_SCOPE);
         metric.setDuration(DURATION);
         metric.setInitialisationStartTimeMillis(INITIALISATION_START_TIME_MILLIS);
         metric.setCreated(new Date());
@@ -162,6 +164,7 @@ public class MetricControllerTest extends SpringContextTest {
         Metric metric = new Metric();
         metric.setBeanName(this.metric.getBeanName());
         metric.setBeanType(this.metric.getBeanType());
+        metric.setBeanScope(this.metric.getBeanScope());
         metric.setDuration(updatedDuration);
         metric.setInitialisationStartTimeMillis(this.metric.getInitialisationStartTimeMillis());
 
@@ -171,6 +174,7 @@ public class MetricControllerTest extends SpringContextTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.beanName", is(BEAN_NAME)))
                 .andExpect(jsonPath("$.beanType", is(BEAN_TYPE)))
+                .andExpect(jsonPath("$.beanScope", is(BEAN_SCOPE)))
                 .andExpect(jsonPath("$.initialisationStartTimeMillis", is(INITIALISATION_START_TIME_MILLIS)))
                 .andExpect(jsonPath("$.duration", is(updatedDuration)));
 
