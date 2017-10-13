@@ -33,7 +33,7 @@
     <tr>
         <td>${metric.beanName}</td>
         <td>${metric.beanType}</td>
-        <td>TODO</td>
+        <td>${metric.beanScope!'N/A'}</td>
         <td align="right">${(metric.durationAvg/1000000)?string["0.0"]}</td>
         <td align="right">${(metric.durationMin/1000000)?string["0.0"]}</td>
         <td align="right">${(metric.durationMax/1000000)?string["0.0"]}</td>
