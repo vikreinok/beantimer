@@ -22,6 +22,8 @@ public class TimerBeanTransformer implements ClassFileTransformer {
     public static final String CLASSPATH_CONFIGURATION = "org.springframework.context.annotation.Configuration";
     public static final String CLASSPATH_BEAN = "org.springframework.context.annotation.Bean";
     public static final String CLASSPATH_SCOPE = "org.springframework.context.annotation.Scope";
+    public static final String CLASSPATH_PRIMARY = "org.springframework.context.annotation.Primary";
+    public static final String CLASSPATH_QUALIFIER = "org.springframework.beans.factory.annotation.Qualifier";
     public static final String SPRING_BEAN_DEFAULT_SCOPE = "singleton";
 
     final ClassFilter classFilter;
@@ -75,18 +77,30 @@ public class TimerBeanTransformer implements ClassFileTransformer {
     private void findBeanAnnotations(CtMethod method) throws Exception {
         Object[] methodAnnotations = method.getAnnotations();
 
-        Proxy annotationProxy;
+        String scope = SPRING_BEAN_DEFAULT_SCOPE;
+        String qualifier = null;
+        boolean primaryAnnotationPresent = false;
+        boolean beanAnnotationPresent = false;
         for (Object methodAnnotation : methodAnnotations) {
-            annotationProxy = (Proxy) methodAnnotation;
-            String proxy = annotationProxy.toString();
+            String proxy = methodAnnotation.toString();
 
-            String scope = SPRING_BEAN_DEFAULT_SCOPE;
             if (proxy.contains(CLASSPATH_SCOPE)) {
                 scope = AnnotationUtil.parseValue(proxy);
             }
-            if (proxy.contains(CLASSPATH_BEAN)) {
-                addInstrumentation(method, scope);
+            if (proxy.contains(CLASSPATH_QUALIFIER)) {
+                qualifier = AnnotationUtil.parseValue(proxy);
             }
+            if (proxy.contains(CLASSPATH_PRIMARY)) {
+                primaryAnnotationPresent = true;
+            }
+            if (proxy.contains(CLASSPATH_BEAN)) {
+                beanAnnotationPresent = true;
+            }
+        }
+
+        System.err.println("End " + scope);
+        if (beanAnnotationPresent) {
+            addInstrumentation(method, scope);
         }
     }
 
