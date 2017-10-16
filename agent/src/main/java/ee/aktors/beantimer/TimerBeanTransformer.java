@@ -98,7 +98,6 @@ public class TimerBeanTransformer implements ClassFileTransformer {
             }
         }
 
-        System.err.println("End " + scope);
         if (beanAnnotationPresent) {
             addInstrumentation(method, scope);
         }
