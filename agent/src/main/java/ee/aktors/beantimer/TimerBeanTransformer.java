@@ -24,6 +24,10 @@ public class TimerBeanTransformer implements ClassFileTransformer {
     public static final String CLASSPATH_SCOPE = "org.springframework.context.annotation.Scope";
     public static final String CLASSPATH_PRIMARY = "org.springframework.context.annotation.Primary";
     public static final String CLASSPATH_QUALIFIER = "org.springframework.beans.factory.annotation.Qualifier";
+    public static final String CLASSPATH_NAMED = "javax.inject.Named";
+
+    public static final String ARGUMENT_NAME = "name=";
+
     public static final String SPRING_BEAN_DEFAULT_SCOPE = "singleton";
 
     final ClassFilter classFilter;
@@ -79,22 +83,30 @@ public class TimerBeanTransformer implements ClassFileTransformer {
 
         String scope = SPRING_BEAN_DEFAULT_SCOPE;
         String qualifier = null;
+        String beanName = null;
+        String named = null;
         boolean primaryAnnotationPresent = false;
         boolean beanAnnotationPresent = false;
         for (Object methodAnnotation : methodAnnotations) {
             String proxy = methodAnnotation.toString();
 
             if (proxy.contains(CLASSPATH_SCOPE)) {
-                scope = AnnotationUtil.parseValue(proxy);
+                scope = AnnotationUtil.parseFirstArgumentValue(proxy);
             }
             if (proxy.contains(CLASSPATH_QUALIFIER)) {
-                qualifier = AnnotationUtil.parseValue(proxy);
+                qualifier = AnnotationUtil.parseFirstArgumentValue(proxy);
+            }
+            if (proxy.contains(CLASSPATH_NAMED)) {
+                named = AnnotationUtil.parseFirstArgumentValue(proxy);
             }
             if (proxy.contains(CLASSPATH_PRIMARY)) {
                 primaryAnnotationPresent = true;
             }
             if (proxy.contains(CLASSPATH_BEAN)) {
                 beanAnnotationPresent = true;
+                if (proxy.contains(ARGUMENT_NAME)) {
+                    beanName = AnnotationUtil.parseFirstArgumentValue(proxy);
+                }
             }
         }
 
