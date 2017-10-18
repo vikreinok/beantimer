@@ -1,5 +1,6 @@
 package ee.aktors.beantimer;
 
+import ee.aktors.beantimer.model.Measurement;
 import ee.aktors.beantimer.util.AnnotationUtil;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -111,19 +112,25 @@ public class TimerBeanTransformer implements ClassFileTransformer {
         }
 
         if (beanAnnotationPresent) {
-            addInstrumentation(method, scope);
+            Measurement measurement = new Measurement(method.getName(), method.getReturnType().getSimpleName(), scope, null, null);
+            addInstrumentation(method, measurement);
         }
     }
 
-    private void addInstrumentation(CtMethod method, String scope) throws Exception {
-        String methodName = method.getName();
-        String returnType = method.getReturnType().getSimpleName();
+    private void addInstrumentation(CtMethod method, Measurement m) throws Exception {
         method.addLocalVariable("currentMillis", CtClass.longType);
         method.addLocalVariable("elapsedTime", CtClass.longType);
         method.insertBefore("currentMillis = System.currentTimeMillis();");
-        method.insertBefore("elapsedTime = System.nanoTime();");
-        method.insertAfter("{elapsedTime = System.nanoTime() - elapsedTime; " +
-                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + methodName + "\",\"" + returnType + "\",\"" + scope + "\", elapsedTime, currentMillis);}");
+        method.insertBefore("elapsedTime = System.currentTimeMillis();");
+        method.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime; " +
+                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + m.getBeanName() + "\",\"" + m.getBeanType() + "\",\"" + m.getBeanScope() + "\", elapsedTime, currentMillis);}");
+
+
+//        method.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime; " +
+//                        "ee.aktors.beantimer.model.Measurement m " +
+//                        "= new ee.aktors.beantimer.model.Measurement(\"" + m.getBeanName() + "\",\"" + m.getBeanType() + "\",\""+ m.getBeanScope() +"\", elapsedTime, currentMillis); " +
+//                " ee.aktors.beantimer.util.TimingUtil.addMeasurement(m);}");
+
     }
 
 }

@@ -23,4 +23,8 @@ public class TimingUtil {
         getMeasurements().add(metric);
     }
 
+    public static void addMeasurement(Measurement measurement) {
+        getMeasurements().add(measurement);
+    }
+
 }
