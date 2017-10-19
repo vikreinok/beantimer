@@ -17,7 +17,7 @@ import java.security.ProtectionDomain;
  */
 public class TimerBeanTransformer implements ClassFileTransformer {
 
-    private final static Logger LOG = Logger.getLogger(Agent.class);
+    private final static Logger LOG = Logger.getLogger(TimerBeanTransformer.class);
 
     public static final String CLASSPATH_PROXY = "com.sun.proxy.$Proxy";
     public static final String CLASSPATH_CONFIGURATION = "org.springframework.context.annotation.Configuration";
