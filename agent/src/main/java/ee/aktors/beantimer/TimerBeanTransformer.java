@@ -13,7 +13,7 @@ import java.lang.reflect.Proxy;
 import java.security.ProtectionDomain;
 
 /**
- *
+ * Agent's transformer. Wrapping a bean body between execution duration measurement and reading annotations of the bean
  */
 public class TimerBeanTransformer implements ClassFileTransformer {
 
