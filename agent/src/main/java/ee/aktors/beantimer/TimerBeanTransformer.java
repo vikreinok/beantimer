@@ -112,7 +112,7 @@ public class TimerBeanTransformer implements ClassFileTransformer {
         }
 
         if (beanAnnotationPresent) {
-            Measurement measurement = new Measurement(method.getName(), method.getReturnType().getSimpleName(), scope, null, null);
+            Measurement measurement = new Measurement(method.getName(), method.getReturnType().getSimpleName(), scope, null, null, primaryAnnotationPresent);
             addInstrumentation(method, measurement);
         }
     }
@@ -123,7 +123,7 @@ public class TimerBeanTransformer implements ClassFileTransformer {
         method.insertBefore("currentMillis = System.currentTimeMillis();");
         method.insertBefore("elapsedTime = System.currentTimeMillis();");
         method.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime; " +
-                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + m.getBeanName() + "\",\"" + m.getBeanType() + "\",\"" + m.getBeanScope() + "\", elapsedTime, currentMillis);}");
+                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + m.getBeanName() + "\",\"" + m.getBeanType() + "\",\"" + m.getBeanScope() + "\", elapsedTime, currentMillis,\"" + m.getPrimary() + "\");}");
 
 
 //        method.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime; " +

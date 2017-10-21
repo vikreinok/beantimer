@@ -21,7 +21,7 @@ public class RestClientIntegrationTest {
 
     @Test
     public void sendData() throws Exception {
-        Measurement measurement = new Measurement("name1", "type", "singleton", 10L, 100L);
+        Measurement measurement = new Measurement("name1", "type", "singleton", 10L, 100L, true);
         restClient.sendMeasurements(Collections.singletonList(measurement));
     }
 
