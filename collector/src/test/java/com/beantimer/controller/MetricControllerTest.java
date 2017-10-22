@@ -21,6 +21,7 @@ import java.util.Date;
 
 import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_NAME;
 import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_TYPE;
+import static com.beantimer.model.ProcessedMetric.TOTAL_PRIMARY;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -38,6 +39,7 @@ public class MetricControllerTest extends SpringContextTest {
     public static final String BEAN_NAME = "beanName";
     public static final String BEAN_TYPE = "BeanType";
     public static final String BEAN_SCOPE = "singleton";
+    public static final Boolean BEAN_PRIMARY = true;
     public static final Long DURATION = 100000000000L;
     public static final Long INITIALISATION_START_TIME_MILLIS = 10000000000L;
 
@@ -77,6 +79,7 @@ public class MetricControllerTest extends SpringContextTest {
         metric.setBeanName(BEAN_NAME);
         metric.setBeanType(BEAN_TYPE);
         metric.setBeanScope(BEAN_SCOPE);
+        metric.setPrimaryBean(BEAN_PRIMARY);
         metric.setDuration(DURATION);
         metric.setInitialisationStartTimeMillis(INITIALISATION_START_TIME_MILLIS);
         metric.setCreated(new Date());
@@ -117,6 +120,7 @@ public class MetricControllerTest extends SpringContextTest {
 
         String beanType = "A";
         String beanName = "a";
+        boolean primary = false;
         int durationMin = 10;
         int durationMax = 20;
         Double durationAvg = (double)(durationMax + durationMin) / 2;
@@ -125,11 +129,13 @@ public class MetricControllerTest extends SpringContextTest {
         Metric m1 = new Metric();
         m1.setBeanType(beanType);
         m1.setBeanName(beanName);
+        m1.setPrimaryBean(primary);
         m1.setDuration(durationMin);
 
         Metric m2 = new Metric();
         m2.setBeanType(beanType);
         m2.setBeanName(beanName);
+        m2.setPrimaryBean(primary);
         m2.setDuration(durationMax);
 
         metricDAO.addMetric(m1);
@@ -141,12 +147,14 @@ public class MetricControllerTest extends SpringContextTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].beanName", is(beanName)))
                 .andExpect(jsonPath("$[0].beanType", is(beanType)))
+                .andExpect(jsonPath("$[0].primary", is(primary)))
                 .andExpect(jsonPath("$[0].durationAvg", is(durationAvg)))
                 .andExpect(jsonPath("$[0].durationMin", is(durationMin)))
                 .andExpect(jsonPath("$[0].durationMax", is(durationMax)))
                 .andExpect(jsonPath("$[0].count", is(2)))
                 .andExpect(jsonPath("$[1].beanName", is(TOTAL_BEAN_NAME)))
                 .andExpect(jsonPath("$[1].beanType", is(TOTAL_BEAN_TYPE)))
+                .andExpect(jsonPath("$[1].primary", is(TOTAL_PRIMARY)))
                 .andExpect(jsonPath("$[1].durationAvg", is(durationAvg)))
                 .andExpect(jsonPath("$[1].durationMin", is(durationMin)))
                 .andExpect(jsonPath("$[1].durationMax", is(durationMax)))
@@ -165,6 +173,7 @@ public class MetricControllerTest extends SpringContextTest {
         metric.setBeanName(this.metric.getBeanName());
         metric.setBeanType(this.metric.getBeanType());
         metric.setBeanScope(this.metric.getBeanScope());
+        metric.setPrimaryBean(this.metric.isPrimaryBean());
         metric.setDuration(updatedDuration);
         metric.setInitialisationStartTimeMillis(this.metric.getInitialisationStartTimeMillis());
 

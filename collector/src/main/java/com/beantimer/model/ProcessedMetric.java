@@ -9,19 +9,22 @@ public class ProcessedMetric {
     public final static String TOTAL_BEAN_NAME = "Total";
     public final static String TOTAL_BEAN_TYPE = "";
     public final static String TOTAL_BEAN_SCOPE = "";
+    public final static boolean TOTAL_PRIMARY = false;
 
     final private String beanName;
     final private String beanType;
     final private String beanScope;
+    final private boolean primary;
     final private Double durationAvg;
     final private Long durationMin;
     final private Long durationMax;
     final private Long count;
 
-    public ProcessedMetric(String beanName, String beanType, String beanScope, Double durationAvg, Long durationMin, Long durationMax, Long count) {
+    public ProcessedMetric(String beanName, String beanType, String beanScope, boolean primary, Double durationAvg, Long durationMin, Long durationMax, Long count) {
         this.beanName = beanName;
         this.beanType = beanType;
         this.beanScope = beanScope;
+        this.primary = primary;
         this.durationAvg = durationAvg;
         this.durationMin = durationMin;
         this.durationMax = durationMax;
@@ -39,6 +42,10 @@ public class ProcessedMetric {
 
     public String getBeanScope() {
         return beanScope;
+    }
+
+    public boolean isPrimary() {
+        return primary;
     }
 
     public Double getDurationAvg() {
@@ -59,14 +66,16 @@ public class ProcessedMetric {
 
     @Override
     public String toString() {
-        String sb = "ProcessedMetric{" + "beanName='" + beanName + '\'' +
-                ", beanType='" + beanType + '\'' +
-                ", beanScope='" + beanScope + '\'' +
-                ", durationAvg=" + durationAvg +
-                ", durationMin=" + durationMin +
-                ", durationMax=" + durationMax +
-                ", count=" + count +
-                '}';
-        return sb;
+        final StringBuffer sb = new StringBuffer("ProcessedMetric{");
+        sb.append("beanName='").append(beanName).append('\'');
+        sb.append(", beanType='").append(beanType).append('\'');
+        sb.append(", beanScope='").append(beanScope).append('\'');
+        sb.append(", primary=").append(primary);
+        sb.append(", durationAvg=").append(durationAvg);
+        sb.append(", durationMin=").append(durationMin);
+        sb.append(", durationMax=").append(durationMax);
+        sb.append(", count=").append(count);
+        sb.append('}');
+        return sb.toString();
     }
 }

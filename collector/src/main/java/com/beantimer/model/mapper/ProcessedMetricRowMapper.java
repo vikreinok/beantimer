@@ -23,10 +23,11 @@ public class ProcessedMetricRowMapper {
                     (String) rs[0],
                     (String) rs[1],
                     (String) rs[2],
-                    (Double) rs[3],
-                    (Long) rs[4],
+                    (Boolean) rs[3],
+                    (Double) rs[4],
                     (Long) rs[5],
-                    (Long) rs[6]
+                    (Long) rs[6],
+                    (Long) rs[7]
             );
 
             processedMetrics.add(processedMetric);
