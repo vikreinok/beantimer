@@ -120,10 +120,12 @@ public class TimerBeanTransformer implements ClassFileTransformer {
     private void addInstrumentation(CtMethod method, Measurement m) throws Exception {
         method.addLocalVariable("currentMillis", CtClass.longType);
         method.addLocalVariable("elapsedTime", CtClass.longType);
+        method.addLocalVariable("primaryBean", CtClass.booleanType);
+        method.insertBefore("primaryBean = " + m.getPrimary().toString() + ";");
         method.insertBefore("currentMillis = System.currentTimeMillis();");
         method.insertBefore("elapsedTime = System.currentTimeMillis();");
         method.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime; " +
-                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + m.getBeanName() + "\",\"" + m.getBeanType() + "\",\"" + m.getBeanScope() + "\", elapsedTime, currentMillis,\"" + m.getPrimary() + "\");}");
+                "ee.aktors.beantimer.util.TimingUtil.addMeasurement(\"" + m.getBeanName() + "\",\"" + m.getBeanType() + "\",\"" + m.getBeanScope() + "\", elapsedTime, currentMillis, primaryBean );}");
 
 
 //        method.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime; " +
