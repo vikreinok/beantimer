@@ -23,7 +23,7 @@ public class ProcessedMetricRowMapper {
                     (String) rs[0],
                     (String) rs[1],
                     (String) rs[2],
-                    (Boolean) rs[3],
+                    Boolean.parseBoolean((String)rs[3]),
                     (Double) rs[4],
                     (Long) rs[5],
                     (Long) rs[6],
