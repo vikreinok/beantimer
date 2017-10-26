@@ -73,8 +73,8 @@ public class MetricDAOImpl implements MetricDAO {
         String queryStr = String.format("SELECT " +
                 "beanName, beanType, beanScope, primaryBean, AVG(duration) AS durationAvg, MIN(duration) AS durationMin, MAX(duration) AS durationMax, COUNT(beanName) AS count " +
                 "FROM Metric " +
-                "GROUP BY beanName, beanType, beanScope, primaryBean" +
-                " %s", orderByClause);
+                "GROUP BY beanName, beanType, beanScope, primaryBean " +
+                "%s", orderByClause);
 
         Query query = entityManager.createQuery(queryStr);
 

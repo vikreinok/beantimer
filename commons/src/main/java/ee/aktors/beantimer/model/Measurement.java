@@ -10,15 +10,15 @@ public class Measurement {
     private final String beanScope;
     private final Long duration;
     private final Long initialisationStartTimeMillis;
-    private final Boolean primary;
+    private final Boolean primaryBean;
 
-    public Measurement(String beanName, String beanType, String beanScope, Long duration, Long initialisationStartTimeMillis, Boolean primary) {
+    public Measurement(String beanName, String beanType, String beanScope, Long duration, Long initialisationStartTimeMillis, Boolean primaryBean) {
         this.beanName = beanName;
         this.beanType = beanType;
         this.beanScope = beanScope;
         this.duration = duration;
         this.initialisationStartTimeMillis = initialisationStartTimeMillis;
-        this.primary = primary;
+        this.primaryBean = primaryBean;
     }
 
     public String getBeanName() {
@@ -41,12 +41,12 @@ public class Measurement {
         return initialisationStartTimeMillis;
     }
 
-    public Boolean getPrimary() {
-        return primary;
+    public Boolean getPrimaryBean() {
+        return primaryBean;
     }
 
     @Override
     public String toString() {
-        return String.format("{\"beanName\":\"%s\",\"beanType\":\"%s\",\"beanScope\":\"%s\",\"duration\":\"%s\",\"initialisationStartTimeMillis\":\"%s\",\"primary\":\"%s\" }", getBeanName(), getBeanType(), getBeanScope(),  getDuration(), getInitialisationStartTimeMillis(), getPrimary());
+        return String.format("{\"beanName\":\"%s\",\"beanType\":\"%s\",\"beanScope\":\"%s\",\"duration\":\"%s\",\"initialisationStartTimeMillis\":\"%s\",\"primaryBean\":%s }", getBeanName(), getBeanType(), getBeanScope(),  getDuration(), getInitialisationStartTimeMillis(), getPrimaryBean());
     }
 }

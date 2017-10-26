@@ -121,7 +121,7 @@ public class TimerBeanTransformer implements ClassFileTransformer {
         method.addLocalVariable("currentMillis", CtClass.longType);
         method.addLocalVariable("elapsedTime", CtClass.longType);
         method.addLocalVariable("primaryBean", CtClass.booleanType);
-        method.insertBefore("primaryBean = " + m.getPrimary().toString() + ";");
+        method.insertBefore("primaryBean = " + m.getPrimaryBean().toString() + ";");
         method.insertBefore("currentMillis = System.currentTimeMillis();");
         method.insertBefore("elapsedTime = System.currentTimeMillis();");
         method.insertAfter("{elapsedTime = System.currentTimeMillis() - elapsedTime; " +

@@ -32,7 +32,7 @@ public class MetricDAOTest extends SpringContextTest {
         String beanType = "A";
         String beanName = "a";
         String beanScope = "singleton";
-        boolean primary = false;
+        boolean primaryBean = false;
         Long durationMin = 10L;
         Long durationMax = 20L;
         Long durationAvg = (durationMax + durationMin) / 2;
@@ -42,14 +42,14 @@ public class MetricDAOTest extends SpringContextTest {
         m1.setBeanType(beanType);
         m1.setBeanName(beanName);
         m1.setBeanScope(beanScope);
-        m1.setPrimaryBean(primary);
+        m1.setPrimaryBean(primaryBean);
         m1.setDuration(durationMin);
 
         Metric m2 = new Metric();
         m2.setBeanType(beanType);
         m2.setBeanName(beanName);
         m2.setBeanScope(beanScope);
-        m2.setPrimaryBean(primary);
+        m2.setPrimaryBean(primaryBean);
         m2.setDuration(durationMax);
 
         metricDAO.addMetric(m1);
@@ -65,7 +65,7 @@ public class MetricDAOTest extends SpringContextTest {
         assertEquals(beanType, processedMetric.getBeanType());
         assertEquals(beanName, processedMetric.getBeanName());
         assertEquals(beanScope, processedMetric.getBeanScope());
-        assertEquals(primary, processedMetric.isPrimary());
+        assertEquals(primaryBean, processedMetric.isPrimaryBean());
         assertEquals(durationAvg, processedMetric.getDurationAvg(), 0.1);
         assertEquals(durationMin, processedMetric.getDurationMin());
         assertEquals(durationMax, processedMetric.getDurationMax());
@@ -110,11 +110,11 @@ public class MetricDAOTest extends SpringContextTest {
         ProcessedMetric processedMetric2 = processedMetrics.get(1);
         assertEquals(beanType1, processedMetric1.getBeanType());
         assertEquals(beanName1, processedMetric1.getBeanName());
-        assertEquals(primaryBean1, processedMetric1.isPrimary());
+        assertEquals(primaryBean1, processedMetric1.isPrimaryBean());
 
         assertEquals(beanType2, processedMetric2.getBeanType());
         assertEquals(beanName2, processedMetric2.getBeanName());
-        assertEquals(primaryBean2, processedMetric2.isPrimary());
+        assertEquals(primaryBean2, processedMetric2.isPrimaryBean());
 
     }
 

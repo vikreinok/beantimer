@@ -14,17 +14,17 @@ public class ProcessedMetric {
     final private String beanName;
     final private String beanType;
     final private String beanScope;
-    final private boolean primary;
+    final private boolean primaryBean;
     final private Double durationAvg;
     final private Long durationMin;
     final private Long durationMax;
     final private Long count;
 
-    public ProcessedMetric(String beanName, String beanType, String beanScope, boolean primary, Double durationAvg, Long durationMin, Long durationMax, Long count) {
+    public ProcessedMetric(String beanName, String beanType, String beanScope, boolean primaryBean, Double durationAvg, Long durationMin, Long durationMax, Long count) {
         this.beanName = beanName;
         this.beanType = beanType;
         this.beanScope = beanScope;
-        this.primary = primary;
+        this.primaryBean = primaryBean;
         this.durationAvg = durationAvg;
         this.durationMin = durationMin;
         this.durationMax = durationMax;
@@ -44,8 +44,8 @@ public class ProcessedMetric {
         return beanScope;
     }
 
-    public boolean isPrimary() {
-        return primary;
+    public boolean isPrimaryBean() {
+        return primaryBean;
     }
 
     public Double getDurationAvg() {
@@ -70,7 +70,7 @@ public class ProcessedMetric {
         sb.append("beanName='").append(beanName).append('\'');
         sb.append(", beanType='").append(beanType).append('\'');
         sb.append(", beanScope='").append(beanScope).append('\'');
-        sb.append(", primary=").append(primary);
+        sb.append(", primaryBean=").append(primaryBean);
         sb.append(", durationAvg=").append(durationAvg);
         sb.append(", durationMin=").append(durationMin);
         sb.append(", durationMax=").append(durationMax);
