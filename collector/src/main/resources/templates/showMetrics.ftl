@@ -23,7 +23,7 @@
         <th>Bean name</th>
         <th>Bean type</th>
         <th>Bean scope</th>
-        <th>Is primaryBean</th>
+        <th>Is primary bean</th>
         <th>Average</th>
         <th>Minimal</th>
         <th>Maximal</th>
@@ -35,7 +35,7 @@
         <td>${metric.beanName}</td>
         <td>${metric.beanType}</td>
         <td>${metric.beanScope!'N/A'}</td>
-        <td>${metric.primaryBean?string('yes', 'no')}</td>
+        <td>${metric.primaryBean?string('yes', '')}</td>
         <td align="right">${(metric.durationAvg/1000000)?string["0.0"]}</td>
         <td align="right">${(metric.durationMin/1000000)?string["0.0"]}</td>
         <td align="right">${(metric.durationMax/1000000)?string["0.0"]}</td>
