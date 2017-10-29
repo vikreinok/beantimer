@@ -66,16 +66,15 @@ public class ProcessedMetric {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("ProcessedMetric{");
-        sb.append("beanName='").append(beanName).append('\'');
-        sb.append(", beanType='").append(beanType).append('\'');
-        sb.append(", beanScope='").append(beanScope).append('\'');
-        sb.append(", primaryBean=").append(primaryBean);
-        sb.append(", durationAvg=").append(durationAvg);
-        sb.append(", durationMin=").append(durationMin);
-        sb.append(", durationMax=").append(durationMax);
-        sb.append(", count=").append(count);
-        sb.append('}');
-        return sb.toString();
+        String sb = "ProcessedMetric{" + "beanName='" + beanName + '\'' +
+                ", beanType='" + beanType + '\'' +
+                ", beanScope='" + beanScope + '\'' +
+                ", primaryBean=" + primaryBean +
+                ", durationAvg=" + durationAvg +
+                ", durationMin=" + durationMin +
+                ", durationMax=" + durationMax +
+                ", count=" + count +
+                '}';
+        return sb;
     }
 }
