@@ -10,7 +10,7 @@ import java.util.Stack;
 public class PeriodicDataSender extends Thread {
 
     final private int sleepMs;
-    RestClient restClient;
+    final private RestClient restClient;
 
     private static boolean collectorLaunched = false;
 
