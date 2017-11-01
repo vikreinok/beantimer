@@ -19,10 +19,15 @@ public class Agent {
     public static void premain(String agentArgs, Instrumentation inst) {
 
         String packageToMeasure = System.getProperty("packageToMeasure");
+        String beantimerUser = System.getProperty("beantimerUser");
         if (packageToMeasure == null || packageToMeasure.isEmpty()) {
-            LOG.error("Please specify package to instrument as a agent argument. For example  -DpackageToMeasure=com.corp.project  -javaagent:.../beantimer.jar");
+            LOG.error("Please specify package to instrument as a agent argument. For example: -DpackageToMeasure=com.corp.project  -javaagent:.../beantimer.jar");
             return;
         }
+        if (beantimerUser == null || beantimerUser.isEmpty()) {
+            LOG.error("Please specify user to find your result in collector. For example: -DbeantimerUser=yourUsername  -javaagent:.../beantimer.jar");
+        }
+
         LOG.info("Measuring bean initialization in [ms] in package: " + packageToMeasure);
 
 
