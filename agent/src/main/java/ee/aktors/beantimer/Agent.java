@@ -14,7 +14,7 @@ public class Agent {
     final static Logger LOG = Logger.getLogger(Agent.class);
     
     public static final int PERIOD_MS = 20_000;
-    public static final String ENDPOINT = "http://localhost:9999/metric/all";
+    public static final String ENDPOINT = "http://84.52.54.143:9999/metric/all";
 
     public static void premain(String agentArgs, Instrumentation inst) {
 
@@ -29,7 +29,6 @@ public class Agent {
         }
 
         LOG.info("Measuring bean initialization in [ms] in package: " + packageToMeasure);
-
 
         initializeAgent(inst, packageToMeasure);
 
