@@ -16,7 +16,7 @@ public class RestClientIntegrationTest {
     @Before
     public void setUp() throws Exception {
         // TODO launch collector
-        restClient = new RestClient();
+        restClient = new RestClient("");
     }
 
     @Test

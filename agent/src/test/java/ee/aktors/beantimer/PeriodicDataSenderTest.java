@@ -9,7 +9,7 @@ import org.junit.Test;
 public class PeriodicDataSenderTest {
     @Test
     public void run_launchACollectorIfNotRunning() throws Exception {
-        new PeriodicDataSender(0, new RestClient()).start();
+        new PeriodicDataSender(0, new RestClient("")).start();
     }
 
 }

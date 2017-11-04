@@ -21,22 +21,28 @@ import java.util.List;
 public class RestClient {
 
     private final static Logger LOG = Logger.getLogger(RestClient.class);
+    private static final String HEADER_NAME_X_USER = "x-user";
     private static final String HEADER_NAME_ACCEPT = "accept";
     private static final String HEADER_NAME_CONTENT_TYPE = "Content-Type";
     private static final String HEADER_VALUE_APPLICATION_JSON = "application/json";
 
     private String endpoint = "http://localhost:9999/metric/all";
+    private final String user;
 
-    public RestClient(String endpoint) {
+    public RestClient(String endpoint, String user) {
         this.endpoint = endpoint;
+        this.user = user;
     }
 
-    public RestClient() {
+    public RestClient(String user) {
+        this.user = user;
         System.err.println("Using default endpoint: " + endpoint);
     }
 
     public boolean sendMeasurements(List<Measurement> measurements) {
         String payload = JsonUtil.transformToJsonArray(measurements);
+
+
 
         boolean success = true;
 
@@ -45,6 +51,7 @@ public class RestClient {
 
             httpClient = HttpClients.createDefault();
             HttpPut putRequest = new HttpPut(endpoint);
+            putRequest.addHeader(HEADER_NAME_X_USER, user);
             putRequest.addHeader(HEADER_NAME_ACCEPT, HEADER_VALUE_APPLICATION_JSON);
             putRequest.addHeader(HEADER_NAME_CONTENT_TYPE, HEADER_VALUE_APPLICATION_JSON);
             putRequest.setEntity(new StringEntity(payload));

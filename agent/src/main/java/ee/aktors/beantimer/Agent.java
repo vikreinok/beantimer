@@ -32,12 +32,12 @@ public class Agent {
 
         initializeAgent(inst, packageToMeasure);
 
-        initAndStartPeriodicDataSender(PERIOD_MS, ENDPOINT);
+        initAndStartPeriodicDataSender(PERIOD_MS, ENDPOINT, beantimerUser);
 
     }
 
-    private static void initAndStartPeriodicDataSender(int periodMs, String endpoint) {
-        RestClient restClient = new RestClient(endpoint);
+    private static void initAndStartPeriodicDataSender(int periodMs, String endpoint, String beantimerUser) {
+        RestClient restClient = new RestClient(endpoint, beantimerUser);
         PeriodicDataSender periodicDataSender = new PeriodicDataSender(periodMs, restClient);
         periodicDataSender.start();
         LOG.info(String.format("PeriodicDataSender started with periodMs %d ms against following endpoint %s", periodMs, endpoint));
