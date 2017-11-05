@@ -21,6 +21,8 @@ public class Metric extends TimedStampedIdEntity implements Serializable {
     private String beanScope;
     @Column(name = "primaryBean")
     private Boolean primaryBean;
+    @ManyToOne
+    private User user;
 
 
     public Metric() {
@@ -72,5 +74,13 @@ public class Metric extends TimedStampedIdEntity implements Serializable {
 
     public void setPrimaryBean(Boolean primaryBean) {
         this.primaryBean = primaryBean;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
