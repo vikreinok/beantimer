@@ -24,8 +24,13 @@ import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_TYPE;
 import static com.beantimer.model.ProcessedMetric.TOTAL_PRIMARY;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -188,6 +193,35 @@ public class MetricControllerTest extends SpringContextTest {
                 .andExpect(jsonPath("$.duration", is(updatedDuration)));
 
         assertEquals(updatedDuration, metricRepository.findOne(this.metric.getId()).getDuration());
+
+    }
+
+    @Test
+    public void addMetric() throws Exception {
+
+        long countBefore = metricRepository.count();
+
+        Metric metric = new Metric();
+        metric.setBeanName(this.metric.getBeanName());
+        metric.setBeanType(this.metric.getBeanType());
+        metric.setBeanScope(this.metric.getBeanScope());
+        metric.setPrimaryBean(this.metric.isPrimaryBean());
+        metric.setDuration(this.metric.getDuration());
+        metric.setInitialisationStartTimeMillis(this.metric.getInitialisationStartTimeMillis());
+
+        mockMvc.perform(put("/metric/all")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json(Arrays.asList(metric))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].beanName", is(BEAN_NAME)))
+                .andExpect(jsonPath("$[0].beanType", is(BEAN_TYPE)))
+                .andExpect(jsonPath("$[0].beanScope", is(BEAN_SCOPE)))
+                .andExpect(jsonPath("$[0].initialisationStartTimeMillis", is(INITIALISATION_START_TIME_MILLIS)))
+                .andExpect(jsonPath("$[0].duration", is(DURATION)))
+                .andExpect(jsonPath("$[0].primaryBean", is(BEAN_PRIMARY)));
+
+        assertEquals(countBefore + 1, metricRepository.count());
 
     }
 
