@@ -15,13 +15,14 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.List;
 
+import static ee.aktors.beantimer.constant.CommonConstant.HEADER_NAME_X_USER;
+
 /**
  *
  */
 public class RestClient {
 
     private final static Logger LOG = Logger.getLogger(RestClient.class);
-    private static final String HEADER_NAME_X_USER = "x-user";
     private static final String HEADER_NAME_ACCEPT = "accept";
     private static final String HEADER_NAME_CONTENT_TYPE = "Content-Type";
     private static final String HEADER_VALUE_APPLICATION_JSON = "application/json";

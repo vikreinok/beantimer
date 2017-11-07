@@ -3,7 +3,9 @@ package com.beantimer.controller;
 
 import com.beantimer.SpringContextTest;
 import com.beantimer.entity.Metric;
+import com.beantimer.entity.User;
 import com.beantimer.repo.MetricRepository;
+import com.beantimer.repo.UserRepository;
 import com.beantimer.repo.dao.MetricDAO;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import java.util.Date;
 import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_NAME;
 import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_TYPE;
 import static com.beantimer.model.ProcessedMetric.TOTAL_PRIMARY;
+import static ee.aktors.beantimer.constant.CommonConstant.HEADER_NAME_X_USER;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
@@ -48,11 +51,14 @@ public class MetricControllerTest extends SpringContextTest {
     public static final Long DURATION = 100000000000L;
     public static final Long INITIALISATION_START_TIME_MILLIS = 10000000000L;
 
+    public static final String USER_NAME = "username";
+
     private MockMvc mockMvc;
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     private Metric metric;
+    private User user;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -62,6 +68,9 @@ public class MetricControllerTest extends SpringContextTest {
 
     @Autowired
     private MetricRepository metricRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
@@ -89,6 +98,9 @@ public class MetricControllerTest extends SpringContextTest {
         metric.setInitialisationStartTimeMillis(INITIALISATION_START_TIME_MILLIS);
         metric.setCreated(new Date());
         metric = metricRepository.save(metric);
+
+        user = new User(USER_NAME);
+        user = userRepository.save(user);
     }
 
 
@@ -210,6 +222,7 @@ public class MetricControllerTest extends SpringContextTest {
         metric.setInitialisationStartTimeMillis(this.metric.getInitialisationStartTimeMillis());
 
         mockMvc.perform(put("/metric/all")
+                .header(HEADER_NAME_X_USER, user.getUsername())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json(Arrays.asList(metric))))
                 .andExpect(status().isOk())
