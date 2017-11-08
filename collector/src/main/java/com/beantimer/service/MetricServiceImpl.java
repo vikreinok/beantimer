@@ -1,12 +1,17 @@
 package com.beantimer.service;
 
 import com.beantimer.entity.Metric;
+import com.beantimer.entity.User;
 import com.beantimer.model.ProcessedMetric;
 import com.beantimer.repo.dao.MetricDAO;
+import com.beantimer.repo.dao.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_NAME;
 import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_SCOPE;
@@ -17,10 +22,12 @@ import static com.beantimer.model.ProcessedMetric.TOTAL_PRIMARY;
 public class MetricServiceImpl implements MetricService {
 
     private final MetricDAO metricDAO;
+    private final UserDAO userDAO;
 
     @Autowired
-    public MetricServiceImpl(MetricDAO metricDAO) {
+    public MetricServiceImpl(MetricDAO metricDAO, UserDAO userDAO) {
         this.metricDAO = metricDAO;
+        this.userDAO = userDAO;
     }
 
     @Override
@@ -49,7 +56,28 @@ public class MetricServiceImpl implements MetricService {
 
     @Override
     public void addMetrics(List<Metric> metrics) {
+
+        HashSet<String> strings = new HashSet<>(1);
+        for (Metric metric : metrics) {
+            if (metric.getUser() != null) {
+                strings.add(metric.getUser().getUsername());
+            }
+
+        }
+        Set<String> userNames = strings;
+
+        for (String username : userNames) {
+            Optional<User> user = userDAO.findByUsername(username);
+
+            if (!user.isPresent()) {
+                userDAO.addUser(new User(username));
+            }
+        }
+
         metricDAO.addMetrics(metrics);
+
+
+
     }
 
     @Override

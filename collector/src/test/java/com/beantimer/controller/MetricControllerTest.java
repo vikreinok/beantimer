@@ -211,7 +211,8 @@ public class MetricControllerTest extends SpringContextTest {
     @Test
     public void addMetric() throws Exception {
 
-        long countBefore = metricRepository.count();
+        long countMetricBefore = metricRepository.count();
+        long countUserBefore = userRepository.count();
 
         Metric metric = new Metric();
         metric.setBeanName(this.metric.getBeanName());
@@ -234,7 +235,8 @@ public class MetricControllerTest extends SpringContextTest {
                 .andExpect(jsonPath("$[0].duration", is(DURATION)))
                 .andExpect(jsonPath("$[0].primaryBean", is(BEAN_PRIMARY)));
 
-        assertEquals(countBefore + 1, metricRepository.count());
+        assertEquals(countMetricBefore + 1, metricRepository.count());
+        assertEquals(countUserBefore + 1, userRepository.count());
 
     }
 
