@@ -4,7 +4,6 @@ import com.beantimer.entity.Metric;
 import com.beantimer.entity.User;
 import com.beantimer.model.ProcessedMetric;
 import com.beantimer.repo.dao.MetricDAO;
-import com.beantimer.repo.dao.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +21,12 @@ import static com.beantimer.model.ProcessedMetric.TOTAL_PRIMARY;
 public class MetricServiceImpl implements MetricService {
 
     private final MetricDAO metricDAO;
-    private final UserDAO userDAO;
+    private final UserService userService;
 
     @Autowired
-    public MetricServiceImpl(MetricDAO metricDAO, UserDAO userDAO) {
+    public MetricServiceImpl(MetricDAO metricDAO, UserService userService) {
         this.metricDAO = metricDAO;
-        this.userDAO = userDAO;
+        this.userService = userService;
     }
 
     @Override
@@ -67,10 +66,10 @@ public class MetricServiceImpl implements MetricService {
         Set<String> userNames = strings;
 
         for (String username : userNames) {
-            Optional<User> user = userDAO.findByUsername(username);
+            Optional<User> user = userService.findByUsername(username);
 
             if (!user.isPresent()) {
-                userDAO.addUser(new User(username));
+                userService.addUser(new User(username));
             }
         }
 

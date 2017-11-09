@@ -1,13 +1,13 @@
-package com.beantimer.repo.dao;
+package com.beantimer.service;
 
 import com.beantimer.entity.User;
 
 import java.util.Optional;
 
-public interface UserDAO {
-
-    void addUser(User user);
+public interface UserService {
 
     Optional<User> findByUsername(String userName);
+
+    User addUser(User user);
 }
  
