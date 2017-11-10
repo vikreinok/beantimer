@@ -3,6 +3,7 @@ package com.beantimer.service;
 import com.beantimer.entity.Metric;
 import com.beantimer.entity.User;
 import com.beantimer.model.ProcessedMetric;
+import com.beantimer.repo.MetricRepository;
 import com.beantimer.repo.dao.MetricDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class MetricServiceImpl implements MetricService {
     private final UserService userService;
 
     @Autowired
+    private MetricRepository metricRepository;
+
+    @Autowired
     public MetricServiceImpl(MetricDAO metricDAO, UserService userService) {
         this.metricDAO = metricDAO;
         this.userService = userService;
@@ -31,22 +35,22 @@ public class MetricServiceImpl implements MetricService {
 
     @Override
     public Metric getMetricById(long id) {
-        return metricDAO.getMetricById(id);
+        return metricRepository.findOne(id);
     }
 
     @Override
     public List<Metric> getAllMetrics() {
-        return metricDAO.getAllMetrics();
+        return metricRepository.findAll();
     }
 
     @Override
     public synchronized void addMetric(Metric metric) {
-        metricDAO.addMetric(metric);
+        metricRepository.save(metric);
     }
 
     @Override
     public void updateMetric(long id, Metric metric) throws IllegalArgumentException {
-        Metric existingMetric = metricDAO.getMetricById(id);
+        Metric existingMetric = metricRepository.findOne(id);
         if (existingMetric == null) {
             throw new IllegalArgumentException("Can't find metric with ID " + id);
         }
@@ -73,20 +77,17 @@ public class MetricServiceImpl implements MetricService {
             }
         }
 
-        metricDAO.addMetrics(metrics);
-
-
-
+        metricRepository.save(metrics);
     }
 
     @Override
     public void deleteMetric(long id) {
-        metricDAO.deleteMetric(id);
+        metricRepository.delete(id);
     }
 
     @Override
     public void deleteAll() {
-        metricDAO.deleteAll();
+        metricRepository.deleteAll();
     }
 
     @Override

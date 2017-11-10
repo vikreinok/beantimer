@@ -3,6 +3,7 @@ package com.beantimer.repo.dao;
 import com.beantimer.SpringContextTest;
 import com.beantimer.entity.Metric;
 import com.beantimer.model.ProcessedMetric;
+import com.beantimer.repo.MetricRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,12 @@ public class MetricDAOTest extends SpringContextTest {
     @Autowired
     private MetricDAO metricDAO;
 
+    @Autowired
+    private MetricRepository metricRepository;
+
     @After
     public void tearDown() throws Exception {
-        metricDAO.deleteAll();
+        metricRepository.deleteAll();
     }
 
 
@@ -52,8 +56,8 @@ public class MetricDAOTest extends SpringContextTest {
         m2.setPrimaryBean(primaryBean);
         m2.setDuration(durationMax);
 
-        metricDAO.addMetric(m1);
-        metricDAO.addMetric(m2);
+        metricRepository.save(m1);
+        metricRepository.save(m2);
 
 
         List<ProcessedMetric> processedMetrics = metricDAO.getMetricsProcessed(null, null);
@@ -97,8 +101,8 @@ public class MetricDAOTest extends SpringContextTest {
         m2.setPrimaryBean(primaryBean2);
         m2.setDuration(durationMax);
 
-        metricDAO.addMetric(m1);
-        metricDAO.addMetric(m2);
+        metricRepository.save(m1);
+        metricRepository.save(m2);
 
 
         List<ProcessedMetric> processedMetrics = metricDAO.getMetricsProcessed("beanName", "ASC");

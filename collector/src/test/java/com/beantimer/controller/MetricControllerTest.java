@@ -133,7 +133,7 @@ public class MetricControllerTest extends SpringContextTest {
     @Test
     public void getProcessedMetrics() throws Exception {
 
-        metricDAO.deleteMetric(metric.getId());
+        metricRepository.delete(metric.getId());
 
         String beanType = "A";
         String beanName = "a";
@@ -155,8 +155,8 @@ public class MetricControllerTest extends SpringContextTest {
         m2.setPrimaryBean(primary);
         m2.setDuration(durationMax);
 
-        metricDAO.addMetric(m1);
-        metricDAO.addMetric(m2);
+        metricRepository.save(m1);
+        metricRepository.save(m2);
 
         mockMvc.perform(get("/metric/processed")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -177,8 +177,8 @@ public class MetricControllerTest extends SpringContextTest {
                 .andExpect(jsonPath("$[1].durationMax", is(durationMax)))
                 .andExpect(jsonPath("$[1].count", is(2)));
 
-        metricDAO.deleteMetric(m1.getId());
-        metricDAO.deleteMetric(m2.getId());
+        metricRepository.delete(m1.getId());
+        metricRepository.delete(m2.getId());
     }
 
     @Test

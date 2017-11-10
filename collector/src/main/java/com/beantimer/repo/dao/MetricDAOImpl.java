@@ -29,31 +29,6 @@ public class MetricDAOImpl implements MetricDAO {
     }
 
     @Override
-    public Metric getMetricById(long id) {
-        return metricRepository.findOne(id);
-    }
-
-    @Override
-    public List<Metric> getAllMetrics() {
-        return metricRepository.findAll();
-    }
-
-    @Override
-    public void addMetric(Metric metric) {
-        metricRepository.save(metric);
-    }
-
-    @Override
-    public void addMetrics(List<Metric> metrics) {
-        metricRepository.save(metrics);
-    }
-
-    @Override
-    public void deleteMetric(long id) {
-        metricRepository.delete(id);
-    }
-
-    @Override
     public void updateMetric(long id, Metric existingMetric, Metric metric) {
         existingMetric.setBeanName(metric.getBeanName());
         existingMetric.setBeanType(metric.getBeanType());
@@ -91,8 +66,4 @@ public class MetricDAOImpl implements MetricDAO {
         return orderByClause;
     }
 
-    @Override
-    public void deleteAll() {
-        metricRepository.deleteAll();
-    }
 }
