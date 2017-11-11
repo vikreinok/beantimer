@@ -7,11 +7,10 @@ import com.beantimer.repo.MetricRepository;
 import com.beantimer.repo.dao.MetricDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_NAME;
 import static com.beantimer.model.ProcessedMetric.TOTAL_BEAN_SCOPE;
@@ -58,23 +57,21 @@ public class MetricServiceImpl implements MetricService {
     }
 
     @Override
-    public void addMetrics(List<Metric> metrics) {
+    @Transactional
+    public void addMetrics(List<Metric> metrics, String username) {
 
-        HashSet<String> strings = new HashSet<>(1);
-        for (Metric metric : metrics) {
-            if (metric.getUser() != null) {
-                strings.add(metric.getUser().getUsername());
-            }
+        Optional<User> userOpt = userService.findByUsername(username);
 
+        User user;
+        if (userOpt.isPresent()) {
+            user = userOpt.get();
+        } else {
+            user = userService.addUser(new User(username));
         }
-        Set<String> userNames = strings;
 
-        for (String username : userNames) {
-            Optional<User> user = userService.findByUsername(username);
 
-            if (!user.isPresent()) {
-                userService.addUser(new User(username));
-            }
+        for (Metric metric : metrics) {
+            metric.setUser(user);
         }
 
         metricRepository.save(metrics);

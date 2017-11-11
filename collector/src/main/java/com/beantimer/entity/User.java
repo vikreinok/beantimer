@@ -1,5 +1,7 @@
 package com.beantimer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -41,6 +43,7 @@ public class User implements Serializable {
     }
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Metric> metrics = new ArrayList<>();
 
     public User(String username) {

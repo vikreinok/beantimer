@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static ee.aktors.beantimer.constant.CommonConstant.HEADER_NAME_X_USER;
+
 @Controller
 @RequestMapping("metric")
 public class MetricController {
@@ -53,8 +55,8 @@ public class MetricController {
     }
 
     @PutMapping("/all")
-    public ResponseEntity<List<Metric>> updateMetrics(@RequestBody List<Metric> metrics) {
-        metricService.addMetrics(metrics);
+    public ResponseEntity<List<Metric>> updateMetrics(@RequestHeader(value=HEADER_NAME_X_USER) String username, @RequestBody List<Metric> metrics) {
+        metricService.addMetrics(metrics, username);
         return new ResponseEntity<>(metrics, HttpStatus.OK);
     }
 

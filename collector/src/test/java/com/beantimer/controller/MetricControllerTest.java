@@ -223,7 +223,7 @@ public class MetricControllerTest extends SpringContextTest {
         metric.setInitialisationStartTimeMillis(this.metric.getInitialisationStartTimeMillis());
 
         mockMvc.perform(put("/metric/all")
-                .header(HEADER_NAME_X_USER, user.getUsername())
+                .header(HEADER_NAME_X_USER, user.getUsername() + "_new")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json(Arrays.asList(metric))))
                 .andExpect(status().isOk())

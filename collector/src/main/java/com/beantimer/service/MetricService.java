@@ -17,7 +17,7 @@ public interface MetricService {
 
     void updateMetric(long id, Metric metric);
 
-    void addMetrics(List<Metric> metrics);
+    void addMetrics(List<Metric> metrics, String username);
 
     void deleteMetric(long id);
 
