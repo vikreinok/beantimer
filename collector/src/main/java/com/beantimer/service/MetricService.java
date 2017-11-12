@@ -23,5 +23,5 @@ public interface MetricService {
 
     void deleteAll();
 
-    List<ProcessedMetric> getProcessedMetrics(String sort, String dir);
+    List<ProcessedMetric> getProcessedMetrics(String sort, String dir, String username);
 }

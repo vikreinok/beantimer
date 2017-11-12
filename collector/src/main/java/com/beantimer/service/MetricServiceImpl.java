@@ -88,8 +88,8 @@ public class MetricServiceImpl implements MetricService {
     }
 
     @Override
-    public List<ProcessedMetric> getProcessedMetrics(String sort, String dir) {
-        List<ProcessedMetric> metricsProcessed = metricDAO.getMetricsProcessed(sort, dir);
+    public List<ProcessedMetric> getProcessedMetrics(String sort, String dir, String username) {
+        List<ProcessedMetric> metricsProcessed = metricDAO.getMetricsProcessed(sort, dir, username);
 
         double durationAvgTotal = 0;
         long durationMinTotal = 0;

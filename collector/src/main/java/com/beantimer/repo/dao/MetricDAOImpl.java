@@ -41,15 +41,26 @@ public class MetricDAOImpl implements MetricDAO {
     }
 
     @Override
-    public List<ProcessedMetric> getMetricsProcessed(String sort, String dir) {
+    public List<ProcessedMetric> getMetricsProcessed(String sort, String dir, String username) {
 
         String orderByClause = validateAndDecideOnUseOfSortParams(sort, dir);
 
         String queryStr = String.format("SELECT " +
-                "beanName, beanType, beanScope, primaryBean, AVG(duration) AS durationAvg, MIN(duration) AS durationMin, MAX(duration) AS durationMax, COUNT(beanName) AS count " +
-                "FROM Metric " +
-                "GROUP BY beanName, beanType, beanScope, primaryBean " +
-                "%s", orderByClause);
+
+                "m.beanName, " +
+                "m.beanType, " +
+                "m.beanScope, " +
+                "m.primaryBean, " +
+                "AVG(m.duration) AS durationAvg, " +
+                "MIN(m.duration) AS durationMin, " +
+                "MAX(m.duration) AS durationMax, " +
+                "COUNT(m.beanName) AS count " +
+
+                "FROM Metric m " +
+                "LEFT JOIN m.user u " +
+                "WHERE u.username = %s "+
+                "GROUP BY m.beanName, m.beanType, m.beanScope, m.primaryBean " +
+                "%s", username, orderByClause);
 
         Query query = entityManager.createQuery(queryStr);
 

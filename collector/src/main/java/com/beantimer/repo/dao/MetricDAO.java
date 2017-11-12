@@ -10,7 +10,7 @@ public interface MetricDAO {
 
     void updateMetric(long id, Metric existingMetric, Metric metric);
 
-    List<ProcessedMetric> getMetricsProcessed(String sort, String dir);
+    List<ProcessedMetric> getMetricsProcessed(String sort, String dir, String username);
 
 }
  

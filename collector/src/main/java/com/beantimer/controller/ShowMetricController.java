@@ -29,8 +29,8 @@ public class ShowMetricController {
     }
 
     @GetMapping()
-    public ModelAndView showCities(@RequestParam(value="sort", required = false) String sort, @RequestParam(value="dir",required = false) String dir) {
-        List<ProcessedMetric> processedMetrics = metricService.getProcessedMetrics(sort, dir);
+    public ModelAndView showCities(@RequestParam(value="sort", required = false) String sort, @RequestParam(value="dir",required = false) String dir, @RequestParam(value="username",required = false) String username) {
+        List<ProcessedMetric> processedMetrics = metricService.getProcessedMetrics(sort, dir, username);
 
         Map<String, Object> params = new HashMap<>();
         params.put("metrics", processedMetrics);
