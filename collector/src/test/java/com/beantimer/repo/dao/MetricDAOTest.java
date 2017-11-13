@@ -105,7 +105,7 @@ public class MetricDAOTest extends SpringContextTest {
         metricRepository.save(m2);
 
 
-        List<ProcessedMetric> processedMetrics = metricDAO.getMetricsProcessed("beanName", "ASC", "username");
+        List<ProcessedMetric> processedMetrics = metricDAO.getMetricsProcessed("beanName", "ASC", null);
 
 
         assertNotNull(processedMetrics);

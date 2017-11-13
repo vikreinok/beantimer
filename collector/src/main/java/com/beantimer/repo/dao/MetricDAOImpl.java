@@ -71,7 +71,7 @@ public class MetricDAOImpl implements MetricDAO {
         String orderByClause = "";
 
         if (OrderByValidator.checkIfClazzContainsColumn(ProcessedMetric.class, sort) && OrderByValidator.validateDirection(dir)) {
-            orderByClause = String.format("ORDER BY %s %s", sort, dir);
+            orderByClause = String.format("ORDER BY m.%s %s", sort, dir);
         }
 
         return orderByClause;
