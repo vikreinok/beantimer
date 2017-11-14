@@ -2,8 +2,10 @@ package com.beantimer.repo.dao;
 
 import com.beantimer.SpringContextTest;
 import com.beantimer.entity.Metric;
+import com.beantimer.entity.User;
 import com.beantimer.model.ProcessedMetric;
 import com.beantimer.repo.MetricRepository;
+import com.beantimer.repo.UserRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class MetricDAOTest extends SpringContextTest {
 
     @Autowired
     private MetricRepository metricRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @After
     public void tearDown() throws Exception {
@@ -119,6 +123,44 @@ public class MetricDAOTest extends SpringContextTest {
         assertEquals(beanType2, processedMetric2.getBeanType());
         assertEquals(beanName2, processedMetric2.getBeanName());
         assertEquals(primaryBean2, processedMetric2.isPrimaryBean());
+
+    }
+
+    @Test
+    public void testGetProcessedMetric_user() throws Exception {
+
+        String beanType1 = "A1";
+        String beanName1 = "a1";
+        boolean primaryBean1 = true;
+
+        Long durationMin = 10L;
+
+        Metric m1 = new Metric();
+        m1.setBeanType(beanType1);
+        m1.setBeanName(beanName1);
+        m1.setPrimaryBean(primaryBean1);
+        m1.setDuration(durationMin);
+
+        User u1 = new User("username");
+
+        userRepository.save(u1);
+        m1.setUser(u1);
+        metricRepository.save(m1);
+
+
+        List<ProcessedMetric> processedMetrics = metricDAO.getMetricsProcessed("beanName", "ASC", u1.getUsername());
+
+        assertNotNull(processedMetrics);
+        assertEquals(1, processedMetrics.size());
+        ProcessedMetric processedMetric1 = processedMetrics.get(0);
+        assertEquals(beanType1, processedMetric1.getBeanType());
+        assertEquals(beanName1, processedMetric1.getBeanName());
+        assertEquals(primaryBean1, processedMetric1.isPrimaryBean());
+
+
+        processedMetrics = metricDAO.getMetricsProcessed("beanName", "ASC", u1.getUsername() + "dummy");
+        assertEquals(0, processedMetrics.size());
+
 
     }
 

@@ -45,6 +45,11 @@ public class MetricDAOImpl implements MetricDAO {
 
         String orderByClause = validateAndDecideOnUseOfSortParams(sort, dir);
 
+        // FIXME :)
+        if ("null".equals(username)) {
+            username = "";
+        }
+
         String queryStr = String.format("SELECT " +
 
                 "m.beanName, " +
@@ -58,7 +63,7 @@ public class MetricDAOImpl implements MetricDAO {
 
                 "FROM Metric m " +
                 "LEFT JOIN m.user u " +
-                "WHERE u.username = %s "+
+                "WHERE u.username = '%s' "+
                 "GROUP BY m.beanName, m.beanType, m.beanScope, m.primaryBean " +
                 "%s", username, orderByClause);
 
