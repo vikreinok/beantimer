@@ -33,6 +33,6 @@ Stats will be available at localhost:9999
 ------------------------
 
 Upcoming features:
-* Remote collector by username (-DbeantimerUser={username)
+* Remote collector by username (-DbeantimerUser={username)  50% WORK IN PROGRESS 
 * Gantt plot (beans x loading time)
-* Bean scope indicators (singleton, prototype)
+* ~~Bean scope indicators (singleton, prototype)~~ DONE
