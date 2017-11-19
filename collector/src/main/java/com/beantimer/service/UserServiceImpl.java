@@ -4,6 +4,7 @@ import com.beantimer.entity.User;
 import com.beantimer.repo.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,5 +27,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 }
