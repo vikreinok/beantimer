@@ -27,7 +27,30 @@ How to use the bean timer?
 -----------------------
 
 Now, just run your integration tests or do some manual testing with app redeploys.
-Stats will be available at localhost:9999
+Stats will be available at http://84.52.54.143:9999 
+
+
+                                                  +---------------------+
++-------------------------------+         +-------+  Agent instruments  |
+|                               |         |       |  Spring beans       |
+|   Your Spring application     <---------+       +---------+-----------+
+|                               |                           |
++-------------------------------+                           |
+                                            +---------------+
+                                            |
+                                            |
+                          +-----------------v----------------+
+                          |                                  |
+                          |           Collector              |
+                          |   http://84.52.54.143:9999       |
+                          |                                  |
+                          |                                  |
+                          |         Has web view for         |
+                          |         data analysis            |
+                          |                                  |
+                          |                                  |
+                          +----------------------------------+
+
 
 
 ------------------------
