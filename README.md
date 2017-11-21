@@ -45,10 +45,8 @@ Stats will be available at http://84.52.54.143:9999
                                |                                  |
                                |                                  |
                                |         Has web view for         |
-                               |         data analysis            |
-                               |                                  |
-                               |                                  |
-                               |                                  |
+                               |           data analysis          |
+                               |                                  |                                 |
                                |                                  |
                                |                                  |
                                +----------------------------------+
