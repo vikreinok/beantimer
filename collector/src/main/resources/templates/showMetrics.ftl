@@ -16,6 +16,10 @@
 |
 <a href="/showMetrics?sort=durationAvg&dir=DESC">Sort by duration</a>
 
+<select id="users" onChange="addQueryParameter(this.value);">
+    <option value="" disabled selected>Select user</option>
+</select>
+
 <h2>Table of metrics</h2>
 
 <table>
@@ -44,4 +48,42 @@
 </#list>
 </table>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+    function addQueryParameter(value) {
+        var url = window.location.href;
+        if (url.indexOf('?') > -1){
+            url += '&username=' + value;
+        }else{
+            url += '?username=' + value;
+        }
+        window.location.href = url;
+    };
+
+    $(document).ready(function() {
+        $.ajax({
+            url: "./user",
+            type: "GET",
+            headers: {
+                "accept": "application/json;",
+            },
+            success: function(data){
+                $.each(data, function (key, value) {
+                    console.log("key " + key + " val " + value);
+                    $("#users").append($("<option></option>")
+                            .val(value.ID)
+                            .html(value.username));
+                });
+            },
+            error: function(error){
+                alert(JSON.stringify(error));
+            }
+        });
+
+
+    });
+
+</script>
+
 </html>
