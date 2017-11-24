@@ -17,7 +17,7 @@
 <a href="/showMetrics?sort=durationAvg&dir=DESC">Sort by duration</a>
 
 <select id="users" onChange="addQueryParameter(this.value);">
-    <option value="" disabled selected>Select user</option>
+    <option value="null">Any user</option>
 </select>
 
 <h2>Table of metrics</h2>
@@ -51,8 +51,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 
+    function updateUrlParameter(url, param, value){
+        var regex = new RegExp('('+param+'=)[^\&]+');
+        return url.replace( regex , '$1' + value);
+    }
+
     function addQueryParameter(value) {
         var url = window.location.href;
+        if(url.indexOf('username=') > -1) {
+            updateUrlParameter(url, 'username', value)
+        }
         if (url.indexOf('?') > -1){
             url += '&username=' + value;
         }else{
