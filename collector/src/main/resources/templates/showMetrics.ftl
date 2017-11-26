@@ -14,9 +14,9 @@
 |
 <a href="/showMetrics?sort=beanName&dir=ASC">Sort by beanName</a>
 |
-<a href="/showMetrics?sort=durationAvg&dir=DESC">Sort by duration</a>
+<a href="/showMetrics?sort=duration&dir=DESC">Sort by duration</a>
 
-<select id="users" onChange="addQueryParameter(this.value);">
+<select id="users" onChange="addQueryParameter(this);">
     <option value="null">Any user</option>
 </select>
 
@@ -56,16 +56,23 @@
         return url.replace( regex , '$1' + value);
     }
 
-    function addQueryParameter(value) {
+    function addQueryParameter(control) {
+        var name = control.name;
+        var value = control.value;
+        var innerHTML = control.innerHTML;
         var url = window.location.href;
         if(url.indexOf('username=') > -1) {
+            console.log(" name " + name);
             updateUrlParameter(url, 'username', value)
+        } else {
+            if (url.indexOf('?') > -1) {
+                url += '&username=' + value;
+            } else {
+                url += '?username=' + value;
+            }
         }
-        if (url.indexOf('?') > -1){
-            url += '&username=' + value;
-        }else{
-            url += '?username=' + value;
-        }
+
+
         window.location.href = url;
     };
 
@@ -79,9 +86,10 @@
             success: function(data){
                 $.each(data, function (key, value) {
                     console.log("key " + key + " val " + value);
-                    $("#users").append($("<option></option>")
-                            .val(value.ID)
-                            .html(value.username));
+                    var opt = document.createElement("option");
+                    opt.value= value.username;
+                    opt.innerHTML = value.username;
+                    $("#users").append(opt);
                 });
             },
             error: function(error){
