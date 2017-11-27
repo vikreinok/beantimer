@@ -18,6 +18,7 @@ How to use the bean timer?
 
 **Add to VM options:**
  * -DpackageToMeasure=com.corp.project -javaagent: absolute path \beantimer\target\beantimer.jar
+ * -DbeantimerUser=your_name
 
 **Start collector app**
 * cd ..
