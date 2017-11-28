@@ -20,7 +20,7 @@ How to use the bean timer?
  * -DpackageToMeasure=com.corp.project -javaagent: absolute path \beantimer\target\beantimer.jar
  * -DbeantimerUser=your_name
 
-**Start collector app**
+**Start collector app or use the remote collector at http://84.52.54.143:9999**
 * cd ..
 * cd collector
 * mvn spring-boot:run (uses in memory H2 DB)
