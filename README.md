@@ -20,15 +20,17 @@ How to use the bean timer?
  * -DpackageToMeasure=com.corp.project -javaagent: absolute path \beantimer\target\beantimer.jar
  * -DbeantimerUser=your_name
 
-**Start collector app or use the remote collector at http://84.52.54.143:9999**
+**Start collector app or...**
 * cd ..
 * cd collector
 * mvn spring-boot:run (uses in memory H2 DB)
 
+**Use the remote collector at http://84.52.54.143:9999**
+
 -----------------------
 
 Now, just run your integration tests or do some manual testing with app redeploys.
-Stats will be available at http://84.52.54.143:9999 
+Stats will be available at http://84.52.54.143:9999 or your local collector
 
                                                        +---------------------+
      +-------------------------------+         +-------+  Agent instruments  |
@@ -58,6 +60,6 @@ Stats will be available at http://84.52.54.143:9999
 ------------------------
 
 Upcoming features:
-* Remote collector by username (-DbeantimerUser={username)  50% WORK IN PROGRESS 
 * Gantt plot (beans x loading time)
+* ~~Remote collector by username (-DbeantimerUser={username)~~
 * ~~Bean scope indicators (singleton, prototype)~~ DONE
