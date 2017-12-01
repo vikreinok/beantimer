@@ -4,8 +4,6 @@ Agent instruments an application targeting all methods annotated with @Bean in c
 
 The agent will sent collected data to collector application (small spring boot app) periodically. 
 
-TODO file output 
-
 **Build agent:**
 
 agent package assembly:single -DskipTests
@@ -15,3 +13,7 @@ agent package assembly:single -DskipTests
 
 -DpackageToMeasure=com.corp.project -javaagent: absolute path \beantimer\target\beantimer.jar -DbeantimerUser=your_name
 
+-----------------------
+
+Upcoming features:
+* Output to file (.csv) instead of collector
