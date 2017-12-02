@@ -13,7 +13,8 @@ agent package assembly:single -DskipTests
 
 -DpackageToMeasure=com.corp.project -javaagent: absolute path \beantimer\target\beantimer.jar -DbeantimerUser=your_name
 
+
 -----------------------
 
 Upcoming features:
-* Output to file (.csv) instead of collector
+* Output to file (.csv) to addition to collector
