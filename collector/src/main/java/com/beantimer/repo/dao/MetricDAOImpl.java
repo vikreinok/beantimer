@@ -59,7 +59,7 @@ public class MetricDAOImpl implements MetricDAO {
 
                 "FROM Metric m " +
                 "LEFT JOIN m.user u " +
-                "WHERE u.username = '%s' OR u.username = 'null' OR u IS NULL "+
+                "WHERE u.username = '%s' OR u.username = 'null' OR u.username = '' OR u IS NULL "+
                 "GROUP BY m.beanName, m.beanType, m.beanScope, m.primaryBean " +
                 "%s", username, orderByClause);
 

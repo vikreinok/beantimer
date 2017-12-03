@@ -40,9 +40,9 @@
         <td>${metric.beanType}</td>
         <td>${metric.beanScope!'N/A'}</td>
         <td>${metric.primaryBean?string('yes', '')}</td>
-        <td align="right">${(metric.durationAvg/1000000)?string["0.0"]}</td>
-        <td align="right">${(metric.durationMin/1000000)?string["0.0"]}</td>
-        <td align="right">${(metric.durationMax/1000000)?string["0.0"]}</td>
+        <td align="right">${(metric.durationAvg/1)?string["0.0"]}</td>
+        <td align="right">${(metric.durationMin/1)?string["0.0"]}</td>
+        <td align="right">${(metric.durationMax/1)?string["0.0"]}</td>
         <td align="right">${metric.count}</td>
     </tr>
 </#list>

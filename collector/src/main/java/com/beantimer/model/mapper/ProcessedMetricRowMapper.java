@@ -18,7 +18,6 @@ public class ProcessedMetricRowMapper {
         for (Object result : resultSet) {
 
             Object[] rs = (Object[]) result;
-            System.err.println("------------- " + rs[3]);
             ProcessedMetric processedMetric = new ProcessedMetric(
                     (String) rs[0],
                     (String) rs[1],
