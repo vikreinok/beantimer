@@ -51,9 +51,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 
-    function updateUrlParameter(url, param, value){
-        var regex = new RegExp('('+param+'=)[^\&]+');
-        return url.replace( regex , '$1' + value);
+    function updateUrlParameter(url, param, value) {
+        var regex = new RegExp('(' + param + '=)[^\&]+');
+        return url.replace(regex, '$1' + value);
+    }
+
+    function createUrlParameters(url, param, value) {
+        if (url.indexOf('?') > -1) {
+            url += '&' + param + '=' + value;
+        } else {
+            url += '?' + param + '=' + value;
+        }
+        return url;
     }
 
     function addQueryParameter(control) {
@@ -63,13 +72,9 @@
         var url = window.location.href;
         if(url.indexOf('username=') > -1) {
             console.log(" name " + name);
-            updateUrlParameter(url, 'username', value)
+            url = updateUrlParameter(url, 'username', value)
         } else {
-            if (url.indexOf('?') > -1) {
-                url += '&username=' + value;
-            } else {
-                url += '?username=' + value;
-            }
+            url = createUrlParameters(url, 'username', value);
         }
 
 
