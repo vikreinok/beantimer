@@ -7,6 +7,9 @@ Have You ever wondered what takes up all the time during application startup? We
 There is a small spring boot app which collects and presents all data. 
 
 
+**Demo:**
+http://84.52.54.143:9999
+
 How to use the bean timer?
 
 
