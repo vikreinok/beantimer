@@ -66,15 +66,6 @@ public class ProcessedMetric {
 
     @Override
     public String toString() {
-        String sb = "ProcessedMetric{" + "beanName='" + beanName + '\'' +
-                ", beanType='" + beanType + '\'' +
-                ", beanScope='" + beanScope + '\'' +
-                ", primaryBean=" + primaryBean +
-                ", durationAvg=" + durationAvg +
-                ", durationMin=" + durationMin +
-                ", durationMax=" + durationMax +
-                ", count=" + count +
-                '}';
-        return sb;
+        return String.format("{\"beanName\":\"%s\",\"beanType\":\"%s\",\"beanScope\":\"%s\",\"durationAvg\":\"%s\",\"durationMin\":\"%s\",\"durationMax\":\"%s\",\"initialisationStartTimeMillis\":\"%s\",\"primaryBean\":%s }", getBeanName(), getBeanType(), getBeanScope(),  getDurationAvg(), getDurationMin(), getDurationMax(), 0, isPrimaryBean());
     }
 }
