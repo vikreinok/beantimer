@@ -85,4 +85,12 @@ public class RestClient {
         }
         return success;
     }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public String getUser() {
+        return user;
+    }
 }

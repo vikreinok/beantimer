@@ -30,7 +30,7 @@ public class PeriodicDataSender extends Thread {
             Stack<Measurement> measurements = new Stack<>();
             measurements.addAll(TimingUtil.getMeasurements());
 
-            System.err.printf("Sending %d measurements %n", measurements.size());
+            System.err.printf("Sending %d measurements to %s by user:'%s' %n ", measurements.size(), restClient.getEndpoint(), restClient.getUser());
             boolean successFulDelivery = restClient.sendMeasurements(measurements);
 
             if (successFulDelivery) {

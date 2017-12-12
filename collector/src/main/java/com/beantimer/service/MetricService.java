@@ -1,6 +1,7 @@
 package com.beantimer.service;
 
 import com.beantimer.entity.Metric;
+import com.beantimer.model.GanttMetric;
 import com.beantimer.model.ProcessedMetric;
 import org.springframework.stereotype.Service;
 
@@ -24,4 +25,6 @@ public interface MetricService {
     void deleteAll();
 
     List<ProcessedMetric> getProcessedMetrics(String sort, String dir, String username);
+
+    List<GanttMetric> getGanttMetrics(String username);
 }

@@ -2,6 +2,7 @@ package com.beantimer.service;
 
 import com.beantimer.entity.Metric;
 import com.beantimer.entity.User;
+import com.beantimer.model.GanttMetric;
 import com.beantimer.model.ProcessedMetric;
 import com.beantimer.repo.MetricRepository;
 import com.beantimer.repo.dao.MetricDAO;
@@ -105,5 +106,11 @@ public class MetricServiceImpl implements MetricService {
         metricsProcessed.add(new ProcessedMetric(TOTAL_BEAN_NAME, TOTAL_BEAN_TYPE, TOTAL_BEAN_SCOPE, TOTAL_PRIMARY, durationAvgTotal, durationMinTotal, durationMaxTotal, countTotal));
 
         return metricsProcessed;
+    }
+
+    @Override
+    public List<GanttMetric> getGanttMetrics(String username) {
+        List<GanttMetric> ganttMetrics = metricDAO.getMetricsGantt(username);
+        return ganttMetrics;
     }
 }

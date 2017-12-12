@@ -5,10 +5,6 @@ import com.beantimer.model.ProcessedMetric;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Fix issues with native queries
- * Use JPA2.1 native query entity
- */
 public class ProcessedMetricRowMapper {
 
     public List<ProcessedMetric> map(List resultSet) {

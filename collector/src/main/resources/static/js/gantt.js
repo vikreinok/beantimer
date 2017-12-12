@@ -20,18 +20,18 @@ function drawChart() {
             var metric = response[index];
             console.table(metric);
             var lastName = null;
-            data.addRow(
-                [
-                    metric.beanName,
-                    metric.beanType + " .",
-                    metric.primaryBean + " .",
-                    new Date(2014, 2, 22),
-                    new Date(2014, 5, 20),
-                    Number.parseFloat(metric.durationAvg),
-                    100,
-                    lastName
-                ]
-            );
+            var percent = Math.abs(Number.parseFloat(metric.durationAvg) - Number.parseFloat(metric.duration)) / Number.parseFloat(metric.durationAvg);
+            var data = [
+                metric.beanName,
+                metric.beanType,
+                metric.primaryBean,
+                null,
+                null,
+                Number.parseFloat(metric.duration),
+                percent,
+                lastName
+            ];
+            data.addRow(data);
             lastName = metric.beanName;
         }
     }

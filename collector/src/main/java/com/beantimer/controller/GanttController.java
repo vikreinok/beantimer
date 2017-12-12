@@ -1,7 +1,7 @@
 package com.beantimer.controller;
 
 
-import com.beantimer.model.ProcessedMetric;
+import com.beantimer.model.GanttMetric;
 import com.beantimer.service.MetricService;
 import ee.aktors.beantimer.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +30,12 @@ public class GanttController {
     }
 
     @GetMapping()
-    public ModelAndView showCities(@RequestParam(value="sort", required = false) String sort, @RequestParam(value="dir",required = false) String dir, @RequestParam(value="username",required = false) String username) {
-        List<ProcessedMetric> processedMetrics = metricService.getProcessedMetrics(sort, dir, username);
+    public ModelAndView showCities(@RequestParam(value="username",required = false) String username) {
+        List<GanttMetric> ganttMetrics = metricService.getGanttMetrics("viktor_reinok");
 
-        ProcessedMetric processedMetric = new ProcessedMetric("name", "type", "scope", true, 10d, 123L, 32L, 31L);
-        processedMetrics.add(processedMetric);
-
-        String json = JsonUtil.transformToJsonArray(processedMetrics);
+        ganttMetrics.add(new GanttMetric("A", "aType", "scope", true, 130D, 100L, 0L));
+        ganttMetrics.add(new GanttMetric("b", "bType", "scope", false, 140D, 70L, 10L));
+        String json = JsonUtil.transformToJsonArray(ganttMetrics);
 
         Map<String, Object> params = new HashMap<>();
         params.put("metrics", json);

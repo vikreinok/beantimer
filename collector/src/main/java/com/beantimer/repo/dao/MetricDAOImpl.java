@@ -2,7 +2,9 @@ package com.beantimer.repo.dao;
 
 import com.beantimer.controller.validator.OrderByValidator;
 import com.beantimer.entity.Metric;
+import com.beantimer.model.GanttMetric;
 import com.beantimer.model.ProcessedMetric;
+import com.beantimer.model.mapper.GanttMetricRowMapper;
 import com.beantimer.model.mapper.ProcessedMetricRowMapper;
 import com.beantimer.repo.MetricRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,31 @@ public class MetricDAOImpl implements MetricDAO {
         Query query = entityManager.createQuery(queryStr);
 
         return new ProcessedMetricRowMapper().map(query.getResultList());
+    }
+
+    @Override
+    public List<GanttMetric> getMetricsGantt(String username) {
+
+        String queryStr = String.format("SELECT " +
+                "m.beanName, " +
+                "m.beanType, " +
+                "m.beanScope, " +
+                "m.primaryBean, " +
+                "(SELECT AVG(mx.duration) FROM Metric AS mx WHERE mx.beanName = m.beanName AND mx.beanType = m.beanType AND m.beanScope = mx.beanScope AND m.primaryBean = mx.primaryBean GROUP BY mx.beanName, mx.beanType, mx.beanScope, mx.primaryBean LIMIT 1) AS durationAvg, " +
+                "m.duration, " +
+                "m.initialisationStartTimeMillis " +
+                "FROM Metric AS m " +
+                "LEFT JOIN Metric AS m2 " +
+                "ON (m.beanName = m2.beanName AND m.beanType = m2.beanType AND m.beanScope = m2.beanScope AND m.primaryBean = m2.primaryBean AND m.initialisationStartTimeMillis < m2.initialisationStartTimeMillis) " +
+                "WHERE m2.id IS NULL " +
+                "ORDER BY m.initialisationStartTimeMillis ASC " +
+//                "WHERE m.beanName != m2.beanName OR m2.id IS NULL " +
+//                "LEFT JOIN User AS u1 ON (u1.username = '%s' OR u1.username = 'null' OR u1.username = '' OR u1 IS NULL )" +
+                " ", username); // GROUP BY m.beanName, m.beanType, m.beanScope, m.primaryBean, m2.initialisationStartTimeMillis, m2.duration
+
+        Query query = entityManager.createNativeQuery(queryStr);
+
+        return new GanttMetricRowMapper().map(query.getResultList());
     }
 
     private String validateAndDecideOnUseOfSortParams(String sort, String dir) {
