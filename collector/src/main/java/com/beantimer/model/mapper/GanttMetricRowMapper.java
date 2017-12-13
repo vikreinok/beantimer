@@ -22,7 +22,8 @@ public class GanttMetricRowMapper {
                     (Boolean)rs[3],
                     ((BigInteger) rs[4]).doubleValue(),
                     Long.valueOf(rs[5] != null ? rs[5].toString() : "0"),
-                    Long.valueOf(rs[6] != null ? rs[6].toString() : "0")
+                    Long.valueOf(rs[6] != null ? rs[6].toString() : "0"),
+                    null
             );
 
             processedMetrics.add(ganttMetric);

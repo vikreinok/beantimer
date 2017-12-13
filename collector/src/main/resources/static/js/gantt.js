@@ -1,6 +1,9 @@
 google.charts.load('current', {'packages': ['gantt']});
 google.charts.setOnLoadCallback(drawChart);
 
+function daysToMilliseconds(days) {
+    return days * 24 * 60 * 60 * 1000;
+}
 
 function drawChart() {
 
@@ -19,33 +22,28 @@ function drawChart() {
         if (response.hasOwnProperty(index)) {
             var metric = response[index];
             console.table(metric);
-            var lastName = null;
+            var last = null;
             var percent = Math.abs(Number.parseFloat(metric.durationAvg) - Number.parseFloat(metric.duration)) / Number.parseFloat(metric.durationAvg);
-            var data = [
-                metric.beanName,
-                metric.beanType,
-                metric.primaryBean,
-                null,
-                null,
+            data.addRow([
+                metric.beanType + " ",
+                metric.beanName + " ",
+                metric.primaryBean ? "primary" : "not primary",
+                new Date(Number.parseFloat(metric.initialisationStartTimeMillis)),
+                new Date(Number.parseFloat(metric.initialisationStartTimeMillis) + Number.parseFloat(metric.duration)),
                 Number.parseFloat(metric.duration),
                 percent,
-                lastName
-            ];
-            data.addRow(data);
-            lastName = metric.beanName;
-        }
+                last
+            ]);
+            last = metric.beanType + " ";
+         }
     }
 
     var options = {
-        height: 400,
-        gantt: {
-            trackHeight: 30
-        }
+        height: 8000
     };
 
     var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
 
     chart.draw(data, options);
-
 
 }

@@ -84,11 +84,11 @@ public class MetricDAOImpl implements MetricDAO {
                 "FROM Metric AS m " +
                 "LEFT JOIN Metric AS m2 " +
                 "ON (m.beanName = m2.beanName AND m.beanType = m2.beanType AND m.beanScope = m2.beanScope AND m.primaryBean = m2.primaryBean AND m.initialisationStartTimeMillis < m2.initialisationStartTimeMillis) " +
-                "WHERE m2.id IS NULL " +
-                "ORDER BY m.initialisationStartTimeMillis ASC " +
-//                "WHERE m.beanName != m2.beanName OR m2.id IS NULL " +
-//                "LEFT JOIN User AS u1 ON (u1.username = '%s' OR u1.username = 'null' OR u1.username = '' OR u1 IS NULL )" +
-                " ", username); // GROUP BY m.beanName, m.beanType, m.beanScope, m.primaryBean, m2.initialisationStartTimeMillis, m2.duration
+//                "LEFT JOIN User " +
+                "WHERE m.id IS NULL " +
+//                "  AND u.username = '%s' OR u.username = 'null' OR u.username = '' OR u IS NULL " +
+                "ORDER BY m.id, m.initialisationStartTimeMillis ASC " +
+                " ", username);
 
         Query query = entityManager.createNativeQuery(queryStr);
 

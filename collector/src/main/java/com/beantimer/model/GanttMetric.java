@@ -12,9 +12,10 @@ public class GanttMetric {
     final private Double durationAvg;
     final private Long duration;
     final private Long initialisationStartTimeMillis;
+    final private String dependency;
 
 
-    public GanttMetric(String beanName, String beanType, String beanScope, boolean primaryBean, Double durationAvg, Long duration, Long initialisationStartTimeMillis) {
+    public GanttMetric(String beanName, String beanType, String beanScope, boolean primaryBean, Double durationAvg, Long duration, Long initialisationStartTimeMillis, String dependency) {
         this.beanName = beanName;
         this.beanType = beanType;
         this.beanScope = beanScope;
@@ -22,6 +23,7 @@ public class GanttMetric {
         this.durationAvg = durationAvg;
         this.duration = duration;
         this.initialisationStartTimeMillis = initialisationStartTimeMillis;
+        this.dependency = dependency;
     }
 
     public String getBeanName() {
@@ -52,8 +54,20 @@ public class GanttMetric {
         return initialisationStartTimeMillis;
     }
 
+    public String getDependency() {
+        return dependency;
+    }
+
     @Override
     public String toString() {
-        return String.format("{\"beanName\":\"%s\",\"beanType\":\"%s\",\"beanScope\":\"%s\",\"durationAvg\":\"%s\",\"duration\":\"%s\",\"initialisationStartTimeMillis\":\"%s\",\"primaryBean\":%s }", getBeanName(), getBeanType(), getBeanScope(),  getDurationAvg(), getDuration(), getInitialisationStartTimeMillis(), isPrimaryBean());
+        return String.format("{\"beanName\":\"%s\",\"beanType\":\"%s\",\"beanScope\":\"%s\",\"durationAvg\":\"%s\",\"duration\":\"%s\",\"initialisationStartTimeMillis\":\"%s\",\"primaryBean\":%s,\"dependency\":%s}", getBeanName(), getBeanType(), getBeanScope(),  getDurationAvg(), getDuration(), getInitialisationStartTimeMillis(), isPrimaryBean(), wrapNoNull(getDependency()));
+    }
+
+    private String wrapNoNull(Object o) {
+        if (o == null) {
+            return null;
+        } else {
+            return "\"" + o.toString() +  "\"";
+        }
     }
 }
