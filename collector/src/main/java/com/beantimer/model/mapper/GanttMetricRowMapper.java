@@ -2,7 +2,6 @@ package com.beantimer.model.mapper;
 
 import com.beantimer.model.GanttMetric;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class GanttMetricRowMapper {
                     (String) rs[1],
                     (String) rs[2],
                     (Boolean)rs[3],
-                    ((BigInteger) rs[4]).doubleValue(),
+                    ((Number) rs[4]).doubleValue(),
                     Long.valueOf(rs[5] != null ? rs[5].toString() : "0"),
                     Long.valueOf(rs[6] != null ? rs[6].toString() : "0"),
                     null

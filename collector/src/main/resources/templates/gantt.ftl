@@ -11,6 +11,6 @@
 
 </head>
 <body>
-<div id="chart_div"></div>
+<div id="chart_div" style="margin-right: 20px"></div>
 </body>
 </html>

@@ -85,7 +85,7 @@ public class MetricDAOImpl implements MetricDAO {
                 "LEFT JOIN Metric AS m2 " +
                 "ON (m.beanName = m2.beanName AND m.beanType = m2.beanType AND m.beanScope = m2.beanScope AND m.primaryBean = m2.primaryBean AND m.initialisationStartTimeMillis < m2.initialisationStartTimeMillis) " +
 //                "LEFT JOIN User " +
-                "WHERE m.id IS NULL " +
+                "WHERE m2.id IS NULL " +
 //                "  AND u.username = '%s' OR u.username = 'null' OR u.username = '' OR u IS NULL " +
                 "ORDER BY m.id, m.initialisationStartTimeMillis ASC " +
                 " ", username);

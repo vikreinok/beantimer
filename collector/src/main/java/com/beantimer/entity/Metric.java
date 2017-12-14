@@ -4,7 +4,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "metric")
+@Table(
+        indexes = {
+                @Index(name = "INDEX_RuleRecord_beanName", columnList = "beanName"),
+                @Index(name = "INDEX_RuleRecord_beanType", columnList = "beanType"),
+                @Index(name = "INDEX_RuleRecord_beanScope", columnList = "beanScope"),
+                @Index(name = "INDEX_RuleRecord_primaryBean", columnList = "primaryBean"),
+        },
+        name = "metric")
 public class Metric extends TimedStampedIdEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -23,14 +23,14 @@ function drawChart() {
             var metric = response[index];
             console.table(metric);
             var last = null;
-            var percent = Math.abs(Number.parseFloat(metric.durationAvg) - Number.parseFloat(metric.duration)) / Number.parseFloat(metric.durationAvg);
+            var percent = Math.abs(Number.parseFloat(metric.durationAvg) - parseInt(metric.duration)) / Number.parseFloat(metric.durationAvg);
             data.addRow([
                 metric.beanType + " ",
                 metric.beanName + " ",
                 metric.primaryBean ? "primary" : "not primary",
-                new Date(Number.parseFloat(metric.initialisationStartTimeMillis)),
-                new Date(Number.parseFloat(metric.initialisationStartTimeMillis) + Number.parseFloat(metric.duration)),
-                Number.parseFloat(metric.duration),
+                new Date(parseInt(metric.initialisationStartTimeMillis)),
+                new Date(parseInt(metric.initialisationStartTimeMillis) + parseInt(metric.duration)),
+                parseInt(metric.duration),
                 percent,
                 last
             ]);
@@ -39,7 +39,7 @@ function drawChart() {
     }
 
     var options = {
-        height: 8000
+        height: response.length * 18
     };
 
     var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
