@@ -49,7 +49,6 @@ public class MetricDAOImpl implements MetricDAO {
 
 
         String queryStr = String.format("SELECT " +
-
                 "m.beanName, " +
                 "m.beanType, " +
                 "m.beanScope, " +
@@ -58,14 +57,15 @@ public class MetricDAOImpl implements MetricDAO {
                 "MIN(m.duration) AS durationMin, " +
                 "MAX(m.duration) AS durationMax, " +
                 "COUNT(m.beanName) AS count " +
-
                 "FROM Metric m " +
-                "LEFT JOIN m.user u " +
-                "WHERE u.username = '%s' OR u.username = 'null' OR u.username = '' OR u IS NULL "+
+                "WHERE m.user_username='%s' " +
+                "OR m.user_username='null' " +
+                "OR m.user_username='' " +
+                "OR m.user_username IS NULL " +
                 "GROUP BY m.beanName, m.beanType, m.beanScope, m.primaryBean " +
                 "%s", username, orderByClause);
 
-        Query query = entityManager.createQuery(queryStr);
+        Query query = entityManager.createNativeQuery(queryStr);
 
         return new ProcessedMetricRowMapper().map(query.getResultList());
     }
