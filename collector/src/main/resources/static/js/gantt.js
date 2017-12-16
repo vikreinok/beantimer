@@ -5,6 +5,10 @@ function daysToMilliseconds(days) {
     return days * 24 * 60 * 60 * 1000;
 }
 
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
 function drawChart() {
 
     var data = new google.visualization.DataTable();
@@ -21,25 +25,32 @@ function drawChart() {
     for (var index in response) {
         if (response.hasOwnProperty(index)) {
             var metric = response[index];
-            console.table(metric);
+            // console.table(metric);
             var last = null;
-            var percent = Math.abs(Number.parseFloat(metric.durationAvg) - parseInt(metric.duration)) / Number.parseFloat(metric.durationAvg);
-            data.addRow([
+            var percent = Math.abs(Number.parseFloat(metric.durationAvg) - Number.parseFloat(metric.duration)) / Number.parseFloat(metric.durationAvg);
+            var startDate = new Date(Number.parseFloat(metric.initialisationStartTimeMillis));
+            var endDate = new Date(Number.parseFloat(metric.initialisationStartTimeMillis) + Number.parseFloat(metric.duration));
+
+
+
+            var values = [
                 metric.beanType + " ",
                 metric.beanName + " ",
                 metric.primaryBean ? "primary" : "not primary",
-                new Date(parseInt(metric.initialisationStartTimeMillis)),
-                new Date(parseInt(metric.initialisationStartTimeMillis) + parseInt(metric.duration)),
-                parseInt(metric.duration),
+                startDate,
+                endDate,
+                null,
                 percent,
-                last
-            ]);
-            last = metric.beanType + " ";
+                null
+            ];
+            // console.table(values);
+            data.addRow(values);
+            last = metric.beanType + "";
          }
     }
 
     var options = {
-        height: response.length * 18
+        height: response.length * 17 + 160
     };
 
     var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
