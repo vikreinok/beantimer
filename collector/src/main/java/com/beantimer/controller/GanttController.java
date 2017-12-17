@@ -31,13 +31,9 @@ public class GanttController {
 
     @GetMapping()
     public ModelAndView showCities(@RequestParam(value="username",required = false) String username) {
-//        List<GanttMetric> ganttMetrics = new ArrayList<>();
-//        ganttMetrics.add(new GanttMetric("A", "aType", "scope", true, 130D, 100L, new Date().getTime(), null));
-//        ganttMetrics.add(new GanttMetric("b", "bType", "scope", false, 140D, 170L, new Date().getTime() + 110, "A"));
-
         List<GanttMetric> ganttMetrics = metricService.getGanttMetrics("viktor_reinok");
 
-        int limit = 10;
+        int limit = 2000;
         if (ganttMetrics.size() > limit) {
             ganttMetrics = ganttMetrics.subList(0, limit);
         }
