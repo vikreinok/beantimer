@@ -19,13 +19,13 @@ import java.util.Map;
  *
  */
 @Controller
-@RequestMapping("gantt")
-public class GanttController {
+@RequestMapping("gantt2")
+public class Gantt2Controller {
 
     private final MetricService metricService;
 
     @Autowired
-    public GanttController(MetricService metricService) {
+    public Gantt2Controller(MetricService metricService) {
         this.metricService = metricService;
     }
 
@@ -46,7 +46,7 @@ public class GanttController {
         Map<String, Object> params = new HashMap<>();
         params.put("metrics", json);
 
-        return new ModelAndView("gantt", params);
+        return new ModelAndView("gantt2", params);
     }
 
 
