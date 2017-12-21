@@ -27,7 +27,7 @@ How to use the bean timer?
 **Start collector app or...**
 * cd ..
 * cd collector
-* mvn spring-boot:run (uses in memory H2 DB)
+* mvn spring-boot:run (uses in memory H2 DB)  or  mvn spring-boot:run -Dprod (uses MySQL)
 
 **.. or use the remote collector at http://84.52.54.143:9999**
 
