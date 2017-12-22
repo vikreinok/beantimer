@@ -36,7 +36,7 @@ public class PeriodicDataSender extends Thread {
             if (successFulDelivery) {
                 measurements.clear();
             } else {
-                launchCollector();
+//                launchCollector();
             }
 
         }
