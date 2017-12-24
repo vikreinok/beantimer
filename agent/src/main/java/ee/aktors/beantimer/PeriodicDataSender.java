@@ -5,13 +5,15 @@ import ee.aktors.beantimer.model.Measurement;
 import ee.aktors.beantimer.util.TimingUtil;
 
 import java.io.IOException;
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PeriodicDataSender extends Thread {
 
     final private int sleepMs;
     final private RestClient restClient;
 
+    private static volatile boolean isRunning = true;
     private static boolean collectorLaunched = false;
 
 
@@ -22,18 +24,18 @@ public class PeriodicDataSender extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (isRunning) {
 
             sleep(sleepMs);
 
-            //TODO synchronize!!! producer consumer
-            Stack<Measurement> measurements = new Stack<>();
-            measurements.addAll(TimingUtil.getMeasurements());
+            List<Measurement> measurements = new ArrayList<>();
+            measurements.addAll(new ArrayList<>(TimingUtil.getMeasurements()));
 
             System.err.printf("Sending %d measurements to %s by user:'%s' %n ", measurements.size(), restClient.getEndpoint(), restClient.getUser());
             boolean successFulDelivery = restClient.sendMeasurements(measurements);
 
             if (successFulDelivery) {
+                TimingUtil.getMeasurements().clear();
                 measurements.clear();
             } else {
 //                launchCollector();
@@ -42,9 +44,11 @@ public class PeriodicDataSender extends Thread {
         }
     }
 
+    /**
+     *  Works only if agent path is build path of beantimer project
+     */
     private void launchCollector() {
         try {
-            // Works only if agent path is build path of beantimer project
             System.out.println("Launching collector");
             if (!collectorLaunched) {
                 Runtime.getRuntime().exec("cmd.exe /c cd .. & cd .. & cd collector & mvn spring-boot:run");
@@ -64,4 +68,7 @@ public class PeriodicDataSender extends Thread {
         }
     }
 
+    public static void setIsRunning(boolean isRunning) {
+        PeriodicDataSender.isRunning = isRunning;
+    }
 }
