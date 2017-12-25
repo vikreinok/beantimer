@@ -4,6 +4,7 @@ import ee.aktors.beantimer.model.Measurement;
 import ee.aktors.beantimer.util.AnnotationUtil;
 import javassist.ClassPool;
 import javassist.CtClass;
+import javassist.CtConstructor;
 import javassist.CtMethod;
 import org.apache.log4j.Logger;
 
@@ -21,6 +22,7 @@ public class TimerBeanTransformer implements ClassFileTransformer {
 
     public static final String CLASSPATH_PROXY = "com.sun.proxy.$Proxy";
     public static final String CLASSPATH_CONFIGURATION = "org.springframework.context.annotation.Configuration";
+    public static final String CLASSPATH_SERVICE = "org.springframework.stereotype.Service";
     public static final String CLASSPATH_BEAN = "org.springframework.context.annotation.Bean";
     public static final String CLASSPATH_SCOPE = "org.springframework.context.annotation.Scope";
     public static final String CLASSPATH_PRIMARY = "org.springframework.context.annotation.Primary";
@@ -60,6 +62,15 @@ public class TimerBeanTransformer implements ClassFileTransformer {
                                 CtMethod[] methods = cc.getMethods();
                                 for (CtMethod method : methods) {
                                     findBeanAnnotations(method);
+                                }
+                            }
+//
+                            if (proxy.toString().endsWith(CLASSPATH_SERVICE)) {
+                                CtConstructor[] constructors = cc.getConstructors();
+                                for (CtConstructor constructor : constructors) {
+//                                    System.err.println(constructor.toString());
+//                                    CtClass declaringClass = constructor.getDeclaringClass();
+//                                    System.err.println("1 " + declaringClass.toString());
                                 }
                             }
                         } catch (Exception e) {
