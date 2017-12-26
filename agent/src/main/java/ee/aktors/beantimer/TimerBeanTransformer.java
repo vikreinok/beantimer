@@ -52,10 +52,8 @@ public class TimerBeanTransformer implements ClassFileTransformer {
 
                     String className = classAnnotation.getClass().getName();
                     if (className.startsWith(CLASSPATH_PROXY)) {
-
-                        Proxy proxy;
                         try {
-                            proxy = (Proxy) classAnnotation;
+                            Proxy proxy = (Proxy) classAnnotation;
 
                             if (proxy.toString().endsWith(CLASSPATH_CONFIGURATION)) {
 
