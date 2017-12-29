@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Sends data from instrumented target system to collector
+ * seepMs - defines interval
+ * The collector endpoints are defined in RestClient
+ */
 public class PeriodicDataSender extends Thread {
 
     final private int sleepMs;
