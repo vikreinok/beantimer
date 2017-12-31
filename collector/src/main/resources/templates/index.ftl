@@ -10,6 +10,10 @@
 <br>
 <a href="/gantt">Gantt</a>
 <br>
+<a href="/gantt2">Gantt2</a>
+<br>
+<a href="/gantt3">Gantt2</a>
+<br>
 <a href="/metric/deleteMetrics" rel="nofollow">Delete metrics</a>
 
 </body>
