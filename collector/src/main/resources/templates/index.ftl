@@ -15,6 +15,8 @@
 <a href="/gantt3">Gantt3</a>
 <br>
 <a href="/metric/deleteMetrics" rel="nofollow">Delete metrics</a>
+<br>
+<a href="https://github.com/vikreinok/beantimer">Github project</a>
 
 </body>
 </html>
