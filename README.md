@@ -67,4 +67,4 @@ Upcoming features:
 * ~~Gantt plot (beans x loading time)~~
 * ~~Remote collector by username (-DbeantimerUser={username)~~
 * ~~Bean scope indicators (singleton, prototype)~~ DONE
-* Finish gannt3 implementation
+* Finish gannt3 implementation (30%)
