@@ -8,7 +8,7 @@ There is a small spring boot app which collects and presents all data.
 
 
 **Demo:**
-http://84.52.54.143:9999
+http://84.52.54.143:9999 (no longer active)
 
 How to use the bean timer?
 
